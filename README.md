@@ -4,7 +4,7 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
 
 ## Funcionalidades
 
-- [ ] 1. Cadastro de Cidades
+- [x] 1. Cadastro de Cidades
 - [ ] 2. Cadastro de Trajetos
 - [ ] 3. Cadastro de Transportes
 - [ ] 4. Cadastro de Passageiros
@@ -23,9 +23,49 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
   - [ ] Relatar todas as viagens em andamento
   - [ ] Relatar as cidades mais visitadas
 
-## Requisitos Técnicos
+### Requisitos Técnicos
 
 - **Interface:** Desenvolver uma interface de linha de comando (CLI) amigável e fácil de usar ou gráfica (opcional).
 - **Persistência de Dados:** Os dados devem ser salvos em arquivos de texto ou banco de dados, permitindo que o sistema recupere as informações ao ser reiniciado.
 - **Modularização:** O código deve ser organizado em diferentes arquivos para cada classe/módulo.
 - **Documentação:** Comentar o código de maneira adequada e fornecer um manual de uso explicando como compilar e executar o sistema.
+
+## Instruções de como executar o projeto
+
+1. **Instale o MySQL:**
+
+   ```bash
+   sudo apt-get install mysql-server
+   ```
+
+2. **Instale o MySQL Connector/C++:**
+
+   ```bash
+   sudo apt-get install libmysqlcppconn-dev
+   ```
+
+3. **Crie o banco de dados:**
+
+   Execute o [script SQL](database/script.sql):
+
+   ```bash
+   mysql -u root -p < script.sql
+   ```
+
+    Ou, execute em um SGBD.
+
+4. **Ajuste as propriedades de conexão:**
+
+   Atualize [`Connection.cpp`](src/connection/Connection.cpp) com suas credenciais de banco de dados.
+
+5. **Compile o projeto:**
+
+   ```bash
+   make
+   ```
+
+6. **Execute o programa:**
+
+   ```bash
+   ./main
+   ``` 
