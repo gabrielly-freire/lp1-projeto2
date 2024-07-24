@@ -10,6 +10,21 @@ Transporte::Transporte(std::string nome, int tipo, int capacidade, int velocidad
     this->localAtual = localAtual;
 }
 
+Transporte::Transporte(int id, std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso,  Cidade* localAtual){
+    this->id = id;
+    this->nome = nome;
+    this->tipo = tipo;
+    this->capacidade = capacidade;
+    this->velocidade = velocidade;
+    this->distancia_entre_descansos = distancia_entre_descansos;
+    this->tempo_de_descanso = tempo_de_descanso;
+    this->localAtual = localAtual;
+}
+
+int Transporte::getId(){
+    return this->id;
+}
+
 std::string Transporte::getNome(){
     return this->nome;
 }

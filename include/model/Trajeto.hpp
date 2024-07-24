@@ -5,12 +5,15 @@
 
 class Trajeto {
     private:
+        int id;
         Cidade* origem;
         Cidade* destino;
-        int tipo; // '1' para Aquático, '2' para Terrestre
+        int tipo;
         int distancia;
     public:
         Trajeto(Cidade* origem, Cidade* destino, int tipo, int distancia);
+        Trajeto(int id, Cidade* origem, Cidade* destino, int tipo, int distancia);
+        int getId();
         Cidade* getOrigem();
         Cidade* getDestino();
         int getTipo();

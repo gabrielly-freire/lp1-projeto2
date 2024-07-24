@@ -5,16 +5,19 @@
 
 class Transporte {
     private:
+        int id;
         std::string nome;
-        int tipo; // '1' para Aquático, '2' para Terrestre
-        int capacidade; // número de passageiros
-        int velocidade; // km/h
-        int distancia_entre_descansos; // em km
-        int tempo_de_descanso; // em horas
-        int tempo_de_descanso_atual;  // em horas
+        int tipo;
+        int capacidade;
+        int velocidade;
+        int distancia_entre_descansos;
+        int tempo_de_descanso;
+        int tempo_de_descanso_atual;
         Cidade* localAtual;
     public:
         Transporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso,  Cidade* localAtual);
+        Transporte(int id, std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso,  Cidade* localAtual);
+        int getId();
         std::string getNome();
         int getTipo();
         int getCapacidade();

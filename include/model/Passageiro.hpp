@@ -1,5 +1,5 @@
 #ifndef PASSAGEIRO_HPP
-#define PASSAGEITO_HPP
+#define PASSAGEIRO_HPP
 
 #include "Cidade.hpp"
 
