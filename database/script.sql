@@ -56,12 +56,11 @@ CREATE TABLE IF NOT EXISTS viagens(
     horas_em_transito INT,
     em_andamento BOOLEAN,
     id_viagem INT,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
     FOREIGN KEY(id_transporte) REFERENCES transportes(id),
     FOREIGN KEY(id_cidade_origem) REFERENCES cidades(id),
     FOREIGN KEY(id_cidade_destino) REFERENCES cidades(id),
     FOREIGN KEY(id_viagem) REFERENCES viagens(id)
-
 );
 
 CREATE TABLE IF NOT EXISTS viagens_passageiros(
