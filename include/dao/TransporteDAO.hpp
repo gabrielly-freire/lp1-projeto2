@@ -12,12 +12,13 @@ class TransporteDAO{
     private:
         Connection& connection;
     public:
-
-        TransporteDAO(Connection &conn);
+        explicit TransporteDAO(Connection& conn);
         void create(Transporte* transporte);
         std::vector<Transporte*> findAll();
         Transporte* findById(int id);
         Transporte* findByNome(std::string nome);
+        std::vector<Transporte*> findAll();
+
 
 };
 #endif

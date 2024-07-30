@@ -13,20 +13,19 @@
 #include "../../include/dao/TransporteDAO.hpp"
 // #include "../../include/dao/ViagemDAO.hpp"
 
-Connection conn;
-CidadeDAO cidadeDAO(conn);
+//Connection conn;
+//CidadeDAO cidadeDAO(conn);
 //TrajetoDAO trajetoDAO(conn);
 // PassageiroDAO passageiroDAO(conn);
-// TransporteDAO transporteDAO(conn);
+ //TransporteDAO transporteDAO(conn);
 // ViagemDAO viagemDAO(conn);
 
-std::vector<Cidade*> cidades = cidadeDAO.findAll();
-std::vector<Trajeto*> trajetos;
-std::vector<Transporte*> transportes;
-std::vector<Passageiro*> passageiros;
-std::vector<Viagem*> viagens;
 
 
+ControladorDeTransito::ControladorDeTransito(Connection& connection)
+    : conn(connection), cidadeDAO(conn),  transporteDAO(conn) {
+        atualizarListas(); 
+}
 void ControladorDeTransito::cadastrarCidade(std::string nome){
     Cidade *cidade = new Cidade(nome);
 
@@ -34,23 +33,19 @@ void ControladorDeTransito::cadastrarCidade(std::string nome){
     delete cidade;
 }
 
-void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string nomeDestino, int tipo, int distancia){
-    if(cidadeDAO.findByNome(nomeOrigem)->getNome() == ""){
-        cidadeDAO.create(nomeOrigem);
+void ControladorDeTransito::cadastrarCidade(std::string nome){
+    Cidade *cidade = new Cidade(nome);
+
+    if(!validarCidade(cidade)){
+        std::cout << "Cidade já cadastrada!" << std::endl;
+        return;
     }
 
-    if(cidadeDAO.findByNome(nomeDestino)->getNome() == ""){
-        cidadeDAO.create(nomeDestino);
-    }
-
-    Cidade* origem = cidadeDAO.findByNome(nomeOrigem);
-    Cidade* destino = cidadeDAO.findByNome(nomeDestino);
-
-    Trajeto *trajeto = new Trajeto(origem, destino, tipo, distancia);
-    //trajetoDAO.create(*trajeto);
-    delete trajeto;
+    cidadeDAO.create(*cidade);
+    std::cout << "Cidade cadastrada com sucesso!" << std::endl;
+    atualizarListas();
+    delete cidade;
 }
-
 
 void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, std::string localAtual){
     if(!(tipo == 1 || tipo == 2)){
@@ -72,7 +67,7 @@ void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int 
 
     // Cria uma instância de TransporteDAO e chama o método create
     
-    Connection conn;
+
     TransporteDAO transporteDAO(conn); // Supondo que connection é um membro da classe ControladorDeTransito
     transporteDAO.create(transporte);
 
@@ -112,5 +107,6 @@ bool ControladorDeTransito::validarCidade(Cidade* cidade){
 
 void ControladorDeTransito::atualizarListas() {
     cidades = cidadeDAO.findAll();
+    transportes = transporteDAO.findAll();
     // trajetos = trajetoDAO.findAll();
 }
