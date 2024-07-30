@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS tipo_trajeto(
     PRIMARY KEY(id)
 );
 
+INSERT INTO tipo_trajeto(id, descricao) VALUES (1, "Terrestre"), (2, "Aquático");
+
 CREATE TABLE IF NOT EXISTS trajetos(
     id int NOT NULL AUTO_INCREMENT,
     id_cidade_origem INT,
@@ -54,21 +56,18 @@ CREATE TABLE IF NOT EXISTS viagens(
     horas_em_transito INT,
     em_andamento BOOLEAN,
     id_viagem INT,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
     FOREIGN KEY(id_transporte) REFERENCES transportes(id),
     FOREIGN KEY(id_cidade_origem) REFERENCES cidades(id),
     FOREIGN KEY(id_cidade_destino) REFERENCES cidades(id),
     FOREIGN KEY(id_viagem) REFERENCES viagens(id)
-
 );
 
-CREATE TABLE IF NOT EXISTS viagens_passegeiros(
-    id_viagens_passegeiros INT AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS viagens_passageiros(
+    id_viagens_passageiros INT AUTO_INCREMENT,
     id_viagem INT,
-    id_passegeiro VARCHAR(15),
-    PRIMARY KEY(id_viagens_passegeiros),
+    id_passageiro VARCHAR(15),
+    PRIMARY KEY(id_viagens_passageiros),
     FOREIGN KEY(id_viagem) REFERENCES viagens(id),
-    FOREIGN KEY(id_passegeiro) REFERENCES passageiros(cpf)
+    FOREIGN KEY(id_passageiro) REFERENCES passageiros(cpf)
 );
-
-INSERT INTO tipo_trajeto(id, descricao) VALUES (1, "Terrestre"), (2, "Aquático");

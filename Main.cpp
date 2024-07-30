@@ -7,7 +7,8 @@ using namespace std;
 
 int main() {
     int opcao;
-    ControladorDeTransito controlador;
+    Connection conn;
+    ControladorDeTransito controlador(conn);
     std::string nome;
     std::string nomeOrigem;
     std::string nomeDestino;

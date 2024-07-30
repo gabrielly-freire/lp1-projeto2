@@ -1,45 +1,47 @@
 #include "../../include/model/ControladorDeTransisto.hpp"
-#include "../../include/connection/Connection.hpp"
-#include "../../include/model/Cidade.hpp"
-#include "../../include/model/ControladorDeTransisto.hpp"
-#include "../../include/model/Passageiro.hpp"
-#include "../../include/model/Trajeto.hpp"
-#include "../../include/model/Transporte.hpp"
-#include "../../include/model/Viagem.hpp"
-#include "../../include/dao/CidadeDAO.hpp"
-#include "../../include/dao/TrajetoDAO.hpp"
-// #include "../../include/dao/PassageiroDAO.hpp"
-// #include "../../include/dao/TransporteDAO.hpp"
-// #include "../../include/dao/ViagemDAO.hpp"
+#include <iostream>
 
-Connection conn;
-CidadeDAO cidadeDAO(conn);
-TrajetoDAO trajetoDAO(conn);
-// PassageiroDAO passageiroDAO(conn);
-// TransporteDAO transporteDAO(conn);
-// ViagemDAO viagemDAO(conn);
-
-std::vector<Cidade*> cidades = cidadeDAO.findAll();
-std::vector<Trajeto*> trajetos;
-std::vector<Transporte*> transportes;
-std::vector<Passageiro*> passageiros;
-std::vector<Viagem*> viagens;
-
+ControladorDeTransito::ControladorDeTransito(Connection& connection)
+    : conn(connection), cidadeDAO(conn), trajetoDAO(conn) {
+        atualizarListas(); 
+}
 
 void ControladorDeTransito::cadastrarCidade(std::string nome){
     Cidade *cidade = new Cidade(nome);
 
+    if(!validarCidade(cidade)){
+        std::cout << "Cidade já cadastrada!" << std::endl;
+        return;
+    }
+
     cidadeDAO.create(*cidade);
+    std::cout << "Cidade cadastrada com sucesso!" << std::endl;
+    atualizarListas();
     delete cidade;
 }
 
 void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string nomeDestino, int tipo, int distancia){
-    if(cidadeDAO.findByNome(nomeOrigem)->getNome() == ""){
-        cidadeDAO.create(nomeOrigem);
+
+    if(!(tipo == 1 || tipo == 2)){
+        std::cout << "Tipo de trajeto inválido" << std::endl;
+        return;
     }
 
-    if(cidadeDAO.findByNome(nomeDestino)->getNome() == ""){
-        cidadeDAO.create(nomeDestino);
+    if(distancia <= 0){
+        std::cout << "Distância de viagem inválida!" << std::endl;
+        return;
+    }
+
+    if(!cidadeDAO.findByNome(nomeOrigem)){
+        Cidade novaOrigem(nomeOrigem);
+        cidadeDAO.create(novaOrigem);
+        atualizarListas();
+    }
+
+    if(!cidadeDAO.findByNome(nomeDestino)){
+        Cidade novaDestino(nomeDestino);
+        cidadeDAO.create(novaDestino);
+        atualizarListas();
     }
 
     Cidade* origem = cidadeDAO.findByNome(nomeOrigem);
@@ -47,6 +49,7 @@ void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string
 
     Trajeto *trajeto = new Trajeto(origem, destino, tipo, distancia);
     trajetoDAO.create(*trajeto);
+    std::cout << "Trajeto cadastrado com sucesso!" << std::endl;
     delete trajeto;
 }
 
@@ -68,4 +71,19 @@ void ControladorDeTransito::avancarHoras(int horas){
 
 void ControladorDeTransito::relatarEstado(){
 
+}
+
+bool ControladorDeTransito::validarCidade(Cidade* cidade){
+    for(int i = 0; i < cidades.size(); i++){
+        Cidade* cidadeBanco = cidades[i];
+        if(cidadeBanco->getNome() == cidade->getNome()){
+            return false;
+        }
+    }
+    return true;
+}
+
+void ControladorDeTransito::atualizarListas() {
+    cidades = cidadeDAO.findAll();
+    trajetos = trajetoDAO.findAll();
 }
