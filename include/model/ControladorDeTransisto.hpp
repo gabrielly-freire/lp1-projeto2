@@ -21,6 +21,8 @@ class ControladorDeTransito {
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
         void avancarHoras(int horas);
         void relatarEstado();
+        bool validarCidade(Cidade* cidade);
+        void atualizarListas();
 };
 
 #endif

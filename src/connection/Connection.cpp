@@ -11,9 +11,9 @@ Connection::Connection() {
     // Atribuições das variáveis de conexão com o banco
     const char* host = "localhost";
     const char* user = "root";
-    const char* password = "Password123#@!";
-    const char* database = "controlador_viagens_db"; // nome do banco do scritp
-    unsigned int port = 0;  // Porta padrão para MySQL
+    const char* password = "nova_senha"; //senha
+    const char* database = "teste"; // nome do banco do scritp
+    unsigned int port = 3306;  // Porta padrão para MySQL
     const char* unix_socket = NULL;  // Usar socket padrão
     unsigned long client_flag = 0;   // Flags padrão para cliente
 

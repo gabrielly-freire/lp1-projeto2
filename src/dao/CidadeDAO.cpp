@@ -35,7 +35,6 @@ std::vector<Cidade*> CidadeDAO::findAll(){
 }
 
 Cidade* CidadeDAO::findById(int id) {
-    Cidade* cidade = new Cidade("");
     MYSQL_RES* result;
     MYSQL_ROW row;
     char query[200];
@@ -43,30 +42,28 @@ Cidade* CidadeDAO::findById(int id) {
 
     if (mysql_query(connection.getConnection(), query)) {
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
-        return cidade;
+        return nullptr;
     }
 
     result = mysql_store_result(connection.getConnection());
     if (result == NULL) {
         std::cerr << "Erro ao armazenar o resultado: " << mysql_error(connection.getConnection()) << std::endl;
-        return cidade;
+        return nullptr;
     }
 
     row = mysql_fetch_row(result);
     if (row) {
-        int id1 = std::stoi(row[0]);
         std::string nome = row[1];
-        Cidade* cidade=new Cidade (id, nome);
+        Cidade* cidade = new Cidade (id, nome);
         mysql_free_result(result);
         return cidade;
     }
 
     mysql_free_result(result);
-    return cidade;  
+    return nullptr;  
 }
 
 Cidade* CidadeDAO::findByNome(std::string nome) {
-    Cidade* cidade = new Cidade("");
     MYSQL_RES* result;
     MYSQL_ROW row;
     char query[200];
@@ -75,13 +72,13 @@ Cidade* CidadeDAO::findByNome(std::string nome) {
 
     if (mysql_query(connection.getConnection(), query)) {
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
-        return cidade;
+        return nullptr;
     }
 
     result = mysql_store_result(connection.getConnection());
     if (result == NULL) {
         std::cerr << "Erro ao armazenar o resultado: " << mysql_error(connection.getConnection()) << std::endl;
-        return cidade;
+        return nullptr;
     }
 
     row = mysql_fetch_row(result);
@@ -89,8 +86,10 @@ Cidade* CidadeDAO::findByNome(std::string nome) {
         int id = std::stoi(row[0]); 
         std::string nomeCidade = row[1];
         Cidade* cidade = new Cidade(id, nomeCidade);
+        mysql_free_result(result);
+        return cidade;
     }
 
     mysql_free_result(result);
-    return cidade;  
+    return nullptr;  
 }

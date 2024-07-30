@@ -19,6 +19,7 @@ Transporte::Transporte(int id, std::string nome, int tipo, int capacidade, int v
     this->distancia_entre_descansos = distancia_entre_descansos;
     this->tempo_de_descanso = tempo_de_descanso;
     this->localAtual = localAtual;
+    this->localAtual = localAtual;
 }
 
 int Transporte::getId(){
