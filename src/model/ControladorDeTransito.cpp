@@ -26,12 +26,7 @@ ControladorDeTransito::ControladorDeTransito(Connection& connection)
     : conn(connection), cidadeDAO(conn),  transporteDAO(conn) {
         atualizarListas(); 
 }
-void ControladorDeTransito::cadastrarCidade(std::string nome){
-    Cidade *cidade = new Cidade(nome);
 
-    cidadeDAO.create(*cidade);
-    delete cidade;
-}
 
 void ControladorDeTransito::cadastrarCidade(std::string nome){
     Cidade *cidade = new Cidade(nome);
@@ -69,7 +64,7 @@ void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int 
     
 
     TransporteDAO transporteDAO(conn); // Supondo que connection é um membro da classe ControladorDeTransito
-    transporteDAO.create(transporte);
+    transporteDAO.create(*transporte);
 
     std::cout << "Transporte cadastrado com sucesso!" << std::endl;
 

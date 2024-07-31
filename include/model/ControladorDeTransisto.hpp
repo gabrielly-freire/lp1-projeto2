@@ -6,9 +6,9 @@
 #include "Cidade.hpp"
 #include "Passageiro.hpp"
 #include "Transporte.hpp"
-#include "Connection.hpp"
-#include "CidadeDAO.hpp"
-#include "TransporteDAO.hpp"
+#include "../connection/Connection.hpp"
+#include "../dao/CidadeDAO.hpp"
+#include "../dao/TransporteDAO.hpp"
 
 #include <vector>
 #include <string>
@@ -25,9 +25,9 @@ class ControladorDeTransito {
         std::vector<Viagem*> viagens;
 
     public:
-        ControladorDeTransito(Connection& connection);  // Construtor
+        ControladorDeTransito(Connection& conn);  // Construtor
         void cadastrarCidade(std::string nome);
-        void cadastrarTrajeto(std::string nomeOrigem, std::string nomeDestino, int tipo, int distancia);
+        // void cadastrarTrajeto(std::string nomeOrigem, std::string nomeDestino, int tipo, int distancia);
         void cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, std::string localAtual);
         void cadastrarPassageiro(std::string nome, std::string localAtual);
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);

@@ -12,9 +12,8 @@ class TransporteDAO{
     private:
         Connection& connection;
     public:
-        explicit TransporteDAO(Connection& conn);
-        void create(Transporte* transporte);
-        std::vector<Transporte*> findAll();
+        TransporteDAO(Connection& connection);
+        void create(Transporte transporte);
         Transporte* findById(int id);
         Transporte* findByNome(std::string nome);
         std::vector<Transporte*> findAll();

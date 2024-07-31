@@ -5,48 +5,25 @@
 #include <vector>
 #include <iostream>
 
-void TransporteDAO::create(Transporte* transporte){
+
+TransporteDAO::TransporteDAO(Connection& conn): connection(conn) {}
+void TransporteDAO::create(Transporte transporte) {
     CidadeDAO cidadeDAO(connection);
-    char query[200]; 
-    sprintf(query, "INSERT INTO transportes (nome) VALUES ('%s');", transporte->getNome().c_str());
-    if(mysql_query(connection.getConnection(), query)){
-        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
-        return;
-    }
-}
-std::vector<Transporte*> TransporteDAO::findAll() {
-    std::vector<Transporte*> transportes;
-    MYSQL_RES* result;
-    MYSQL_ROW row;
-    char query[] = "SELECT * FROM transportes;";
+    char query[1024];  // Aumente o buffer para acomodar o texto e evitar overflow
+    sprintf(query, 
+        "INSERT INTO transportes (nome, capacidade_passageiros, velocidade, distancia_entre_descanso, tempo_de_descanso, id_cidade_atual) "
+        "VALUES ('%s', %d, %d, %d, %d, %d);",
+        transporte.getNome().c_str(), 
+        transporte.getCapacidade(), 
+        transporte.getVelocidade(), 
+        transporte.getDistanciaEntreDescansos(), 
+        transporte.getTempoDescanso(), 
+        transporte.getLocalAtual()->getId());
 
     if (mysql_query(connection.getConnection(), query)) {
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
-        return transportes;
+        return;
     }
-
-    result = mysql_store_result(connection.getConnection());
-    
-
-    while ((row = mysql_fetch_row(result))) {
-        int id = std::stoi(row[0]);
-        std::string nome = row[1];
-        int tipo = std::stoi(row[2]);
-        int capacidade = std::stoi(row[3]);
-        int velocidade = std::stoi(row[4]);
-        int distancia_entre_descansos = std::stoi(row[5]);
-        int tempo_de_descanso = std::stoi(row[6]);
-        int idLocal = std::stoi(row[7]);
-        CidadeDAO dao(connection);
-
-        Cidade* localAtual = dao.findById(idLocal);
-
-        Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, localAtual);
-        transportes.push_back(transporte);
-    }
-
-    mysql_free_result(result);
-    return transportes;
 }
 Transporte* TransporteDAO::findById(int id) {
     MYSQL_RES* result;
@@ -84,7 +61,7 @@ Transporte* TransporteDAO::findById(int id) {
     }
 
     mysql_free_result(result);
-    return nullptr;  
+    return nullptr;
 }
 Transporte* TransporteDAO::findByNome(std::string nome) {
     MYSQL_RES* result;
@@ -121,22 +98,22 @@ Transporte* TransporteDAO::findByNome(std::string nome) {
         mysql_free_result(result);
         return transporte;
     }
-   
+
 
     mysql_free_result(result);
-    return nullptr;  
+    return nullptr;
 }
  std::vector<Transporte*> TransporteDAO::findAll(){
     std::vector<Transporte*> transportes;
     MYSQL_RES* result;
     MYSQL_ROW row;
     char query[] = "SELECT * FROM transportes;";
-    
+
     if(mysql_query(connection.getConnection(), query)){
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
         return transportes;
     }
-    
+
     result = mysql_store_result(connection.getConnection());
     while ((row = mysql_fetch_row(result))) {
         int id = std::stoi(row[0]);
@@ -157,3 +134,37 @@ Transporte* TransporteDAO::findByNome(std::string nome) {
 
     return transportes;
 }
+// std::vector<Transporte*> TransporteDAO::findAll() {
+//     std::vector<Transporte*> transportes;
+//     MYSQL_RES* result;
+//     MYSQL_ROW row;
+//     char query[] = "SELECT * FROM transportes;";
+
+//     if (mysql_query(connection.getConnection(), query)) {
+//         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+//         return transportes;
+//     }
+
+//     result = mysql_store_result(connection.getConnection());
+
+
+//     while ((row = mysql_fetch_row(result))) {
+//         int id = std::stoi(row[0]);
+//         std::string nome = row[1];
+//         int tipo = std::stoi(row[2]);
+//         int capacidade = std::stoi(row[3]);
+//         int velocidade = std::stoi(row[4]);
+//         int distancia_entre_descansos = std::stoi(row[5]);
+//         int tempo_de_descanso = std::stoi(row[6]);
+//         int idLocal = std::stoi(row[7]);
+//         CidadeDAO dao(connection);
+
+//         Cidade* localAtual = dao.findById(idLocal);
+
+//         Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, localAtual);
+//         transportes.push_back(transporte);
+//     }
+
+//     mysql_free_result(result);
+//     return transportes;
+// }

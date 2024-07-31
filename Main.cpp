@@ -7,7 +7,8 @@ using namespace std;
 
 int main() {
     int opcao;
-    ControladorDeTransito controlador;
+    Connection conn;
+    ControladorDeTransito controlador(conn);
     std::string nome;
     std::string nomeOrigem;
     std::string nomeDestino;
@@ -41,7 +42,7 @@ int main() {
                 cin >> tipo;
                 cout << "Digite a distância do Trajeto: ";
                 cin >> distancia;
-                controlador.cadastrarTrajeto(nomeOrigem, nomeDestino, tipo, distancia);
+                // controlador.cadastrarTrajeto(nomeOrigem, nomeDestino, tipo, distancia);
                 break;
             case 3:
                  std::cin.ignore();
