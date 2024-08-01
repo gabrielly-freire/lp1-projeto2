@@ -10,6 +10,11 @@
 #include "../dao/TrajetoDAO.hpp"
 #include "../dao/TransporteDAO.hpp"
 #include "../dao/ViagemDAO.hpp"
+#include "../dao/ConsultasDAO.hpp"
+#include "dto/CidadeDTO.hpp"
+#include "dto/PassageiroDTO.hpp"
+#include "dto/TransporteDTO.hpp"
+#include "dto/ViagemDTO.hpp"
 
 #include <vector>
 
@@ -26,6 +31,7 @@ class ControladorDeTransito {
         TrajetoDAO trajetoDAO;
         // TransporteDAO transporteDAO;
         // ViagemDAO viagemDAO;
+        ConsultasDAO consultasDAO;
 
     public:
         ControladorDeTransito(Connection& conn);
@@ -36,6 +42,7 @@ class ControladorDeTransito {
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
         void avancarHoras(int horas);
         void relatarEstado();
+        void gerarRelatorios(int tipo);
 
         // métodos auxiliares
         bool validarCidade(Cidade* cidade);
