@@ -1,4 +1,4 @@
-#include "../../include/model/dto/PassageiroDTO.hpp"
+#include "../../../include/model/dto/PassageiroDTO.hpp"
 
 PassageiroDTO::PassageiroDTO(std::string cpf, std::string nome, std::string local){
     this->cpf = cpf;

@@ -1,10 +1,10 @@
-#include "../../include/model/dto/TransporteDTO.hpp"
+#include "../../../include/model/dto/TransporteDTO.hpp"
 
 TransporteDTO::TransporteDTO(std::string nome, std::string local){
     this->nome = nome;
     this->local = local;
 }
 
-TransporteDTO::toString(){
+std::string TransporteDTO::toString(){
     return this->nome + " - " + this->local + "\n";
 }

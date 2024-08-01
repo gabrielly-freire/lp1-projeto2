@@ -1,10 +1,11 @@
-#include "../../include/model/dto/CidadeDTO.hpp"
+#include "../../../include/model/dto/CidadeDTO.hpp"
 
-CidadeDTO::CidadeDTO(int posicao, std::strind nome){
+CidadeDTO::CidadeDTO(int posicao, std::string nome, int visitas){
     this->posicao = posicao;
     this->nome = nome;
+    this->visitas = visitas;
 }
 
 std::string CidadeDTO::toString(){
-    return this->posicao + " - " + this->nome + "\n";
+    return std::to_string(this->posicao) + " - " + this->nome + " - " + std::to_string(this->visitas) + "\n";
 }

@@ -1,4 +1,4 @@
-#include "../../include/model/dto/ViagemDTO.hpp"
+#include "../../../include/model/dto/ViagemDTO.hpp"
 
 ViagemDTO::ViagemDTO(std::string nomeTransporte, std::string nomeCidadeOrigem, std::string nomeCidadeDestino){
     this->nomeTransporte = nomeTransporte;
