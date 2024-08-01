@@ -53,17 +53,17 @@ void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int 
     }
     Cidade* local = cidadeDAO.findByNome(localAtual);
     if (!local) {
-        local = new Cidade(localAtual);
-        cidadeDAO.create(*local);
+        Cidade novo_local(localAtual);
+        cidadeDAO.create(novo_local);
         atualizarListas();
     }
+    Cidade* novoLocal = cidadeDAO.findByNome(localAtual);
     
-    Transporte* transporte = new Transporte(nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, local);
+    Transporte* transporte = new Transporte(nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, novoLocal);
 
-    // Cria uma instância de TransporteDAO e chama o método create
     
 
-    TransporteDAO transporteDAO(conn); // Supondo que connection é um membro da classe ControladorDeTransito
+    TransporteDAO transporteDAO(conn);
     transporteDAO.create(*transporte);
 
     std::cout << "Transporte cadastrado com sucesso!" << std::endl;
