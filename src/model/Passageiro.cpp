@@ -17,3 +17,7 @@ std::string Passageiro::getCpf(){
 Cidade* Passageiro::getLocalAtual(){
     return this->localAtual;
 }
+
+void Passageiro::setLocalAtual(Cidade *localAtual){
+    this->localAtual = localAtual;
+}
