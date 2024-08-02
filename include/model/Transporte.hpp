@@ -15,8 +15,8 @@ class Transporte {
         int tempo_de_descanso_atual;
         Cidade* localAtual;
     public:
-        Transporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso,  Cidade* localAtual);
-        Transporte(int id, std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso,  Cidade* localAtual);
+        Transporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, Cidade* localAtual);
+        Transporte(int id, std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, Cidade* localAtual);
         int getId();
         std::string getNome();
         int getTipo();

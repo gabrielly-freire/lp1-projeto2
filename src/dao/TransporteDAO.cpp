@@ -11,13 +11,14 @@ void TransporteDAO::create(Transporte transporte) {
     CidadeDAO cidadeDAO(connection);
     char query[1024];  // Aumente o buffer para acomodar o texto e evitar overflow
     sprintf(query, 
-        "INSERT INTO transportes (nome, capacidade_passageiros, velocidade, distancia_entre_descanso, tempo_de_descanso, id_cidade_atual) "
-        "VALUES ('%s', %d, %d, %d, %d, %d);",
+        "INSERT INTO transportes (nome, capacidade_passageiros, velocidade, distancia_entre_descanso, tempo_de_descanso,tempo_de_descanso_atual, id_cidade_atual) "
+        "VALUES ('%s', %d, %d, %d, %d,%d, %d);",
         transporte.getNome().c_str(), 
         transporte.getCapacidade(), 
         transporte.getVelocidade(), 
         transporte.getDistanciaEntreDescansos(), 
-        transporte.getTempoDescanso(), 
+        transporte.getTempoDescanso(),
+        transporte.getTempoDescansoAtual(), 
         transporte.getLocalAtual()->getId());
 
     if (mysql_query(connection.getConnection(), query)) {
@@ -51,11 +52,12 @@ Transporte* TransporteDAO::findById(int id) {
         int velocidade = std::stoi(row[4]);
         int distancia_entre_descansos = std::stoi(row[5]);
         int tempo_de_descanso = std::stoi(row[6]);
-        int idLocal = std::stoi(row[7]);
+        int tempo_de_descanso_atual = std::stoi(row[7]);
+        int idLocal = std::stoi(row[8]);
         CidadeDAO dao(connection);
 
         Cidade* localAtual = dao.findById(idLocal);
-        Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, localAtual);
+        Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso,tempo_de_descanso_atual, localAtual);
         mysql_free_result(result);
         return transporte;
     }
@@ -90,11 +92,12 @@ Transporte* TransporteDAO::findByNome(std::string nome) {
         int velocidade = std::stoi(row[4]);
         int distancia_entre_descansos = std::stoi(row[5]);
         int tempo_de_descanso = std::stoi(row[6]);
-        int idLocal = std::stoi(row[7]);
+        int tempo_de_descanso_atual = std::stoi(row[7]);
+        int idLocal = std::stoi(row[8]);
         CidadeDAO dao(connection);
 
         Cidade* localAtual = dao.findById(idLocal);
-        Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, localAtual);
+        Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, tempo_de_descanso_atual,localAtual);
         mysql_free_result(result);
         return transporte;
     }
@@ -123,11 +126,12 @@ Transporte* TransporteDAO::findByNome(std::string nome) {
         int velocidade = std::stoi(row[4]);
         int distancia_entre_descansos = std::stoi(row[5]);
         int tempo_de_descanso = std::stoi(row[6]);
-        int idLocal = std::stoi(row[7]);
+        int tempo_de_descanso_atual = std::stoi(row[7]);
+        int idLocal = std::stoi(row[8]);
         CidadeDAO dao(connection);
 
         Cidade* localAtual = dao.findById(idLocal);
-        Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, localAtual);
+        Transporte* transporte = new Transporte(id, nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso,tempo_de_descanso_atual, localAtual);
         transportes.push_back(transporte);
     }
     mysql_free_result(result);

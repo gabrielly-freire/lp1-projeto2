@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS transportes(
     velocidade INT,
     distancia_entre_descanso INT,
     tempo_de_descanso INT,
+    tempo_de_descanso_atual INT,
     id_cidade_atual INT,
     PRIMARY KEY (id),
     FOREIGN KEY(id_cidade_atual) REFERENCES cidades(id)

@@ -42,12 +42,12 @@ void ControladorDeTransito::cadastrarCidade(std::string nome){
     delete cidade;
 }
 
-void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, std::string localAtual){
+void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual,std::string localAtual){
     if(!(tipo == 1 || tipo == 2)){
         std::cout << "Tipo de trajeto inválido" << std::endl;
         return;
     }
-    if (capacidade <= 0 || velocidade <= 0 || distancia_entre_descansos <= 0 || tempo_de_descanso < 0) {
+    if (capacidade <= 0 || velocidade <= 0 || distancia_entre_descansos <= 0 || tempo_de_descanso < 0 || tempo_de_descanso_atual < 0) {
         std::cout << "Parâmetros inválidos para transporte." << std::endl;
         return;
     }
@@ -59,7 +59,8 @@ void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int 
     }
     Cidade* novoLocal = cidadeDAO.findByNome(localAtual);
     
-    Transporte* transporte = new Transporte(nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso, novoLocal);
+
+    Transporte* transporte = new Transporte(nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso,tempo_de_descanso_atual, novoLocal);
 
     
 
