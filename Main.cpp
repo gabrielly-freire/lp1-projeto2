@@ -61,7 +61,7 @@ int main() {
                 cin >> tempoDescanso;
                 std::cin.ignore();
                 cout << "Digite o local atual do transporte: ";
-                std::getline(std::cin, localAtualTransporte);//alteração pra commit(teste)
+                std::getline(std::cin, localAtualTransporte);//alteração pra commit(teste.)
                 controlador.cadastrarTransporte(nomeTransporte, tipoTransporte, capacidadeTransporte, velocidadeTransporte, distanciaDescanso, tempoDescanso, tempoDescansoAtual , localAtualTransporte);
                 break;
             case 4:
