@@ -5,6 +5,7 @@
 #include "mysql/mysql.h"
 #include <vector>
 #include "../model/Passageiro.hpp"
+#include "CidadeDAO.hpp"
 
 using namespace std;
 
@@ -17,9 +18,8 @@ public:
     ~PassageiroDAO();
     void createPassageiro(Passageiro passageiro);
     vector<Passageiro*> findAll();
-    Passageiro* findById(int id);
+    Passageiro* findByCpf(string cpf);
     Passageiro* findByNome(string nome);
-    Passageiro* findByCidadeAtual(int idCidadeAtual);
 };
 
 

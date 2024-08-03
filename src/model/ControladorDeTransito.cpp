@@ -4,7 +4,7 @@
 using namespace std;
 
 ControladorDeTransito::ControladorDeTransito(Connection &connection)
-    : conn(connection), cidadeDAO(conn), trajetoDAO(conn)
+    : conn(connection), cidadeDAO(conn), trajetoDAO(conn), passageiroDAO(conn)
 {
     atualizarListas();
 }
@@ -67,7 +67,8 @@ void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int 
 {
 }
 
-//---------------------------------------------------------------------------------------------------------- TRABALHANDO AQUI ----------------------------------------------------------------------------------------------------------------//
+
+
 void ControladorDeTransito::cadastrarPassageiro(){
     string nome;
     string cpf;
@@ -80,13 +81,55 @@ void ControladorDeTransito::cadastrarPassageiro(){
     getline(cin, cpf);
     cout << "Digite o nome da cidade atual do passageiro: ";
     getline(cin, local);
-    localAtual = new Cidade(local);
+    localAtual = cidadeDAO.findByNome(local);
+
+    if (localAtual == nullptr)
+    {
+        cout << "Cidade atual não cadastrada!" << endl;
+        return;
+    }
 
     Passageiro *passageiro = new Passageiro(nome, cpf, localAtual);
 
-}
+    if (passageiro == nullptr)
+    {
+        cout << "Nenhum registro encontrado!" << endl;
+        return;
+    }
 
-//---------------------------------------------------------------------------------------------------------- TRABALHANDO AQUI ----------------------------------------------------------------------------------------------------------------//
+    if (!validarPassageiro(passageiro))
+    {
+        cout << "Passageiro já cadastrado!" << endl;
+        return;
+    }
+
+    passageiroDAO.createPassageiro(*passageiro);
+    std::cout << "Passageiro cadastrada com sucesso!" << std::endl;
+
+    atualizarListas();
+
+    //Teste lista de passageiros
+    /*
+    for (int i = 0; i < passageiros.size(); i++)
+    {
+        cout << "Passageiro "<< i << "#" << endl << "Nome do Passageiro: " << passageiros[i]->getNome() << endl << "Codigo da Cidade Atual: " << passageiros[i]->getLocalAtual()->getId() << endl;
+    }
+    */
+
+   //Teste findByCpf
+   /*
+   cout << "Digite um cpf de passageiro: ";
+   getline(cin, cpf);
+
+   Passageiro* passageirinho = passageiroDAO.findByCpf(cpf);
+
+   cout << "Nome do Passageiro: " << passageirinho->getNome() << endl << "Código da Cidade Atual: " << passageirinho->getLocalAtual()->getId() << endl;
+   */
+
+    delete localAtual;
+    delete passageiro;
+
+}
 
 void ControladorDeTransito::iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino)
 {
@@ -113,8 +156,22 @@ bool ControladorDeTransito::validarCidade(Cidade *cidade)
     return true;
 }
 
+bool ControladorDeTransito::validarPassageiro(Passageiro *passageiro)
+{
+    for (int i = 0; i < passageiros.size(); i++)
+    {
+        if (passageiro == passageiros[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 void ControladorDeTransito::atualizarListas()
 {
     cidades = cidadeDAO.findAll();
     trajetos = trajetoDAO.findAll();
+    passageiros = passageiroDAO.findAll();
 }
+

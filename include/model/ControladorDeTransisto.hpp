@@ -7,7 +7,7 @@
 #include "Passageiro.hpp"
 #include "../connection/Connection.hpp"
 #include "../dao/CidadeDAO.hpp"
-// #include "../dao/PassageiroDAO.hpp"
+#include "../dao/PassageiroDAO.hpp"
 #include "../dao/TrajetoDAO.hpp"
 // #include "../dao/TransporteDAO.hpp"
 // #include "../dao/ViagemDAO.hpp"
@@ -23,7 +23,7 @@ class ControladorDeTransito {
         std::vector<Passageiro*> passageiros;
         std::vector<Viagem*> viagens;
         CidadeDAO cidadeDAO;
-        // PassageiroDAO passageiroDAO;
+        PassageiroDAO passageiroDAO;
         TrajetoDAO trajetoDAO;
         // TransporteDAO transporteDAO;
         // ViagemDAO viagemDAO;
@@ -39,8 +39,10 @@ class ControladorDeTransito {
         void relatarEstado();
 
         // métodos auxiliares
+        bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
         void atualizarListas();
+        void atualizarPassageiros();
 };
 
 #endif
