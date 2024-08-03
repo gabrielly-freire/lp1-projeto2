@@ -7,7 +7,8 @@ using namespace std;
 
 int main() {
     int opcao;
-    ControladorDeTransito controlador;
+    Connection conn;
+    ControladorDeTransito controlador(conn);
     std::string nome;
     std::string nomeOrigem;
     std::string nomeDestino;
@@ -38,6 +39,9 @@ int main() {
             case 3:
                 break;
             case 4:
+                cin.ignore();
+                cout << "Cadastrar Passageiro" << endl;
+                controlador.cadastrarPassageiro();
                 break;
             case 5:
                 int subOpcao5;
