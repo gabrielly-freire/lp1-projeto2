@@ -6,6 +6,7 @@
 #include <vector>
 #include "../model/Cidade.hpp"
 
+//Modificação teste
 class CidadeDAO{
     private:
         Connection& connection;

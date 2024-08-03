@@ -39,6 +39,9 @@ int main() {
             case 3:
                 break;
             case 4:
+                cin.ignore();
+                cout << "Cadastrar Passageiro" << endl;
+                controlador.cadastrarPassageiro();
                 break;
             case 5:
                 int subOpcao5;
