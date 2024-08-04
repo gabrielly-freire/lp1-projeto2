@@ -6,8 +6,8 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
 
 - [x] 1. Cadastro de Cidades
 - [x] 2. Cadastro de Trajetos
-- [ ] 3. Cadastro de Transportes
-- [ ] 4. Cadastro de Passageiros
+- [x] 3. Cadastro de Transportes
+- [x] 4. Cadastro de Passageiros
 - [ ] 5. Gestão de Viagens
   - [ ] Iniciar viagem entre cidades
     - Só permitir se for possível
