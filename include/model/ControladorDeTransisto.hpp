@@ -5,11 +5,12 @@
 #include "Viagem.hpp"
 #include "Cidade.hpp"
 #include "Passageiro.hpp"
+#include "Transporte.hpp"
 #include "../connection/Connection.hpp"
 #include "../dao/CidadeDAO.hpp"
 #include "../dao/PassageiroDAO.hpp"
 #include "../dao/TrajetoDAO.hpp"
-// #include "../dao/TransporteDAO.hpp"
+#include "../dao/TransporteDAO.hpp"
 // #include "../dao/ViagemDAO.hpp"
 #include "../dao/ConsultasDAO.hpp"
 #include "dto/CidadeDTO.hpp"
@@ -18,6 +19,9 @@
 #include "dto/ViagemDTO.hpp"
 
 #include <vector>
+#include <string>
+
+using namespace std;
 
 class ControladorDeTransito {
     private:
@@ -30,7 +34,7 @@ class ControladorDeTransito {
         CidadeDAO cidadeDAO;
         PassageiroDAO passageiroDAO;
         TrajetoDAO trajetoDAO;
-        // TransporteDAO transporteDAO;
+        TransporteDAO transporteDAO;
         // ViagemDAO viagemDAO;
         ConsultasDAO consultasDAO;
 
@@ -38,7 +42,7 @@ class ControladorDeTransito {
         ControladorDeTransito(Connection& conn);
         void cadastrarCidade(std::string nome);
         void cadastrarTrajeto(std::string nomeOrigem, std::string nomeDestino, int tipo, int distancia);
-        void cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, std::string localAtual);
+        void cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, std::string localAtual);
         void cadastrarPassageiro();
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
         void avancarHoras(int horas);

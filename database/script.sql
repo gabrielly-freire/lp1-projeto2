@@ -1,4 +1,6 @@
-CREATE DATABASE controlador_viagens_db;
+CREATE DATABASE controlador_viagens_db
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
 
 USE controlador_viagens_db;
 
@@ -39,10 +41,12 @@ CREATE TABLE IF NOT EXISTS trajetos(
 CREATE TABLE IF NOT EXISTS transportes(
     id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(50),
+    tipo INT,
     capacidade_passageiros INT,
     velocidade INT,
     distancia_entre_descanso INT,
     tempo_de_descanso INT,
+    tempo_de_descanso_atual INT,
     id_cidade_atual INT,
     PRIMARY KEY (id),
     FOREIGN KEY(id_cidade_atual) REFERENCES cidades(id)

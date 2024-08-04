@@ -4,7 +4,7 @@
 using namespace std;
 
 ControladorDeTransito::ControladorDeTransito(Connection &connection)
-    : conn(connection), cidadeDAO(conn), trajetoDAO(conn), passageiroDAO(conn), consultasDAO(conn) {
+    : conn(connection), cidadeDAO(conn), trajetoDAO(conn), passageiroDAO(conn), transporteDAO(conn), consultasDAO(conn) {
     atualizarListas();
 }
 
@@ -56,7 +56,29 @@ void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string
     delete trajeto;
 }
 
-void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, std::string localAtual) {
+void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, std::string localAtual){
+    if(!(tipo == 1 || tipo == 2)){
+        std::cout << "Tipo de trajeto inválido" << std::endl;
+        return;
+    }
+    if (capacidade <= 0 || velocidade <= 0 || distancia_entre_descansos <= 0 || tempo_de_descanso < 0 || tempo_de_descanso_atual < 0) {
+        std::cout << "Parâmetros inválidos para transporte." << std::endl;
+        return;
+    }
+    Cidade* local = cidadeDAO.findByNome(localAtual);
+    if (!local) {
+        Cidade novo_local(localAtual);
+        cidadeDAO.create(novo_local);
+        atualizarListas();
+    }
+  
+    Cidade* novoLocal = cidadeDAO.findByNome(localAtual);
+    
+    Transporte* transporte = new Transporte(nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso,tempo_de_descanso_atual, novoLocal);
+    transporteDAO.create(*transporte);
+    std::cout << "Transporte cadastrado com sucesso!" << std::endl;
+    atualizarListas();
+    delete transporte;
 }
 
 void ControladorDeTransito::cadastrarPassageiro() {
@@ -163,6 +185,7 @@ bool ControladorDeTransito::validarCidade(Cidade* cidade) {
 
 void ControladorDeTransito::atualizarListas() {
     cidades = cidadeDAO.findAll();
+    transportes = transporteDAO.findAll();
     trajetos = trajetoDAO.findAll();
     passageiros = passageiroDAO.findAll();
 }
@@ -175,4 +198,3 @@ bool ControladorDeTransito::validarPassageiro(Passageiro *passageiro) {
     }
     return true;
 }
-

@@ -34,8 +34,8 @@ std::vector<TransporteDTO*> ConsultasDAO::relatorioLocalidadeTransportes(){
     MYSQL_RES* result;
     MYSQL_ROW row;
     std::string query = "SELECT t.nome, CASE WHEN v.em_andamento = TRUE THEN 'em trânsito' ELSE c.nome END AS status_localizacao "
-        "FROM transportes t JOIN viagens v ON v.id_transporte = t.id JOIN cidades c ON t.id_cidade_atual = c.id;";
-
+        "FROM transportes t LEFT JOIN viagens v ON v.id_transporte = t.id LEFT JOIN cidades c ON t.id_cidade_atual = c.id;";
+        
     if(mysql_query(connection.getConnection(), query.c_str())){
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
         return transportes;

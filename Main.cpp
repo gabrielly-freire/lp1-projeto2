@@ -14,7 +14,16 @@ int main() {
     std::string nomeDestino;
     int tipo;
     int distancia;
-
+    //std::String Campo Cadastro Transporte:
+    std::string nomeTransporte;
+    std::string localAtualTransporte;
+    //Inteiros Transporte Cadastro:
+    int tipoTransporte;     
+    int capacidadeTransporte;
+    int velocidadeTransporte;
+    int distanciaDescanso;
+    int tempoDescanso;
+    int tempoDescansoAtual = 0;
     do {
         opcao = menu();
         switch (opcao) {
@@ -37,6 +46,23 @@ int main() {
                 controlador.cadastrarTrajeto(nomeOrigem, nomeDestino, tipo, distancia);
                 break;
             case 3:
+                 std::cin.ignore();
+                cout << "Digite o nome do transporte: ";
+                std::getline(std::cin, nomeTransporte);
+                cout << "Digite número para o tipo do transporte(1 = terrestre e 2 = aquático): ";
+                cin >> tipoTransporte;
+                cout << "Digite a capacidade do transporte: ";
+                cin >> capacidadeTransporte;
+                cout << "Digite a velocidade do transporte(km/h): ";
+                cin >> velocidadeTransporte;
+                cout << "Digite a distância de descanso(km): ";
+                cin >> distanciaDescanso;
+                cout << "Digite o tempo de descanso(em horas): ";
+                cin >> tempoDescanso;
+                std::cin.ignore();
+                cout << "Digite o local atual do transporte: ";
+                std::getline(std::cin, localAtualTransporte);
+                controlador.cadastrarTransporte(nomeTransporte, tipoTransporte, capacidadeTransporte, velocidadeTransporte, distanciaDescanso, tempoDescanso, tempoDescansoAtual , localAtualTransporte);
                 break;
             case 4:
                 cin.ignore();
