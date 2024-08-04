@@ -1,4 +1,6 @@
-CREATE DATABASE controlador_viagens_db;
+CREATE DATABASE controlador_viagens_db
+DEFAULT CHARACTER SET utf8
+DEFAULT COLLATE utf8_general_ci;
 
 USE controlador_viagens_db;
 
