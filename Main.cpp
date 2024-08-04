@@ -65,6 +65,9 @@ int main() {
                 controlador.cadastrarTransporte(nomeTransporte, tipoTransporte, capacidadeTransporte, velocidadeTransporte, distanciaDescanso, tempoDescanso, tempoDescansoAtual , localAtualTransporte);
                 break;
             case 4:
+                cin.ignore();
+                cout << "Cadastrar Passageiro" << endl;
+                controlador.cadastrarPassageiro();
                 break;
             case 5:
                 int subOpcao5;
@@ -95,23 +98,9 @@ int main() {
                 break;
             case 6:
                 int subOpcao6;
-                do {
+                do{
                     subOpcao6 = submenu6();
-                    switch (subOpcao6) {
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            break;
-                        case 0:
-                            break;
-                        default:
-                            cout << "Opção inválida no Consultas e Relatórios. Tente novamente." << endl;
-                            break;
-                    }
+                    controlador.gerarRelatorios(subOpcao6);
                 } while (subOpcao6 != 0);
                 break;
             case 0:

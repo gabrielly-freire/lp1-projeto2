@@ -5,7 +5,7 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
 ## Funcionalidades
 
 - [x] 1. Cadastro de Cidades
-- [ ] 2. Cadastro de Trajetos
+- [x] 2. Cadastro de Trajetos
 - [ ] 3. Cadastro de Transportes
 - [ ] 4. Cadastro de Passageiros
 - [ ] 5. Gestão de Viagens
@@ -17,11 +17,11 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
   - [ ] Avançar horas e atualizar estado do sistema
   - [ ] Registrar chegada do transporte na cidade de destino
   - [ ] Calcular o melhor trajeto entre cidades
-- [ ] 6. Consultas e Relatórios
-  - [ ] Relatar onde estão cada pessoa (cidade ou em trânsito, informando origem-destino-transporte)
-  - [ ] Relatar onde está cada transporte (cidade ou em trânsito)
-  - [ ] Relatar todas as viagens em andamento
-  - [ ] Relatar as cidades mais visitadas
+- [x] 6. Consultas e Relatórios
+  - [x] Relatar onde estão cada pessoa (cidade ou em trânsito, informando origem-destino-transporte)
+  - [x] Relatar onde está cada transporte (cidade ou em trânsito)
+  - [x] Relatar todas as viagens em andamento
+  - [x] Relatar as cidades mais visitadas
 
 ### Requisitos Técnicos
 
