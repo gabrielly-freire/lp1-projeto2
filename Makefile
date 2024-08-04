@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Iinclude -std=c++11
-SRC = $(wildcard src/**/*.cpp) Main.cpp
+SRC = $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) Main.cpp
 OBJ = $(SRC:.cpp=.o)
 TARGET = main
 
