@@ -9,8 +9,8 @@
 #include "../dao/CidadeDAO.hpp"
 #include "../dao/PassageiroDAO.hpp"
 #include "../dao/TrajetoDAO.hpp"
-#include "../dao/TransporteDAO.hpp"
-#include "../dao/ViagemDAO.hpp"
+// #include "../dao/TransporteDAO.hpp"
+// #include "../dao/ViagemDAO.hpp"
 #include "../dao/ConsultasDAO.hpp"
 #include "dto/CidadeDTO.hpp"
 #include "dto/PassageiroDTO.hpp"
@@ -49,7 +49,6 @@ class ControladorDeTransito {
         bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
         void atualizarListas();
-        void atualizarPassageiros();
 };
 
 #endif
