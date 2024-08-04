@@ -43,7 +43,7 @@ int main() {
                 cin >> tipo;
                 cout << "Digite a distância do Trajeto: ";
                 cin >> distancia;
-                // controlador.cadastrarTrajeto(nomeOrigem, nomeDestino, tipo, distancia);
+                controlador.cadastrarTrajeto(nomeOrigem, nomeDestino, tipo, distancia);
                 break;
             case 3:
                  std::cin.ignore();
@@ -61,7 +61,7 @@ int main() {
                 cin >> tempoDescanso;
                 std::cin.ignore();
                 cout << "Digite o local atual do transporte: ";
-                std::getline(std::cin, localAtualTransporte);//alteração pra commit(teste.)
+                std::getline(std::cin, localAtualTransporte);
                 controlador.cadastrarTransporte(nomeTransporte, tipoTransporte, capacidadeTransporte, velocidadeTransporte, distanciaDescanso, tempoDescanso, tempoDescansoAtual , localAtualTransporte);
                 break;
             case 4:

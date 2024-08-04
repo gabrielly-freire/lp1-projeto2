@@ -21,6 +21,8 @@
 #include <vector>
 #include <string>
 
+using namespace std;
+
 class ControladorDeTransito {
     private:
         Connection& conn;
@@ -40,7 +42,7 @@ class ControladorDeTransito {
         ControladorDeTransito(Connection& conn);
         void cadastrarCidade(std::string nome);
         void cadastrarTrajeto(std::string nomeOrigem, std::string nomeDestino, int tipo, int distancia);
-        void cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, std::string localAtual);
+        void cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, std::string localAtual);
         void cadastrarPassageiro();
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
         void avancarHoras(int horas);

@@ -56,7 +56,7 @@ void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string
     delete trajeto;
 }
 
-void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual,std::string localAtual){
+void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, std::string localAtual){
     if(!(tipo == 1 || tipo == 2)){
         std::cout << "Tipo de trajeto inválido" << std::endl;
         return;
