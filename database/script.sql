@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS trajetos(
 CREATE TABLE IF NOT EXISTS transportes(
     id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(50),
+    tipo INT,
     capacidade_passageiros INT,
     velocidade INT,
     distancia_entre_descanso INT,

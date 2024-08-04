@@ -49,7 +49,7 @@ int main() {
                  std::cin.ignore();
                 cout << "Digite o nome do transporte: ";
                 std::getline(std::cin, nomeTransporte);
-                cout << "Digite o tipo do transporte(1 para aquáticvo e 2 para terrestre): ";
+                cout << "Digite número para o tipo do transporte(1 = terrestre e 2 = aquático): ";
                 cin >> tipoTransporte;
                 cout << "Digite a capacidade do transporte: ";
                 cin >> capacidadeTransporte;

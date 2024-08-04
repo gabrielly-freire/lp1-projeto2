@@ -11,9 +11,10 @@ void TransporteDAO::create(Transporte transporte) {
     CidadeDAO cidadeDAO(connection);
     char query[1024];
     sprintf(query, 
-        "INSERT INTO transportes (nome, capacidade_passageiros, velocidade, distancia_entre_descanso, tempo_de_descanso,tempo_de_descanso_atual, id_cidade_atual) "
-        "VALUES ('%s', %d, %d, %d, %d, %d, %d);",
+        "INSERT INTO transportes (nome, tipo, capacidade_passageiros, velocidade, distancia_entre_descanso, tempo_de_descanso,tempo_de_descanso_atual, id_cidade_atual) "
+        "VALUES ('%s', %d, %d, %d, %d, %d, %d, %d);",
         transporte.getNome().c_str(), 
+        transporte.getTipo(),
         transporte.getCapacidade(), 
         transporte.getVelocidade(), 
         transporte.getDistanciaEntreDescansos(), 
