@@ -124,8 +124,25 @@ void ControladorDeTransito::cadastrarPassageiro() {
 
 void ControladorDeTransito::iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino) {
 }
+std::chrono::system_clock::time_point ControladorDeTransito::getCurrentTimePoint() {
+    return std::chrono::system_clock::now();
+}
 
-void ControladorDeTransito::avancarHoras(int horas) {
+std::string ControladorDeTransito::timePointToString(const std::chrono::system_clock::time_point& timePoint) {
+    std::time_t now_time = std::chrono::system_clock::to_time_t(timePoint);
+    std::tm* local_time = std::localtime(&now_time);
+
+    std::ostringstream oss;
+    oss << std::put_time(local_time, "%Y-%m-%d %H:%M:%S");
+    return oss.str();
+}
+
+void ControladorDeTransito::avancarHoras(std::chrono::system_clock::time_point& timePoint) {
+    // Define a duração de uma hora
+    std::chrono::hours one_hour(1);
+
+    // Atualiza o timePoint com a nova duração
+    timePoint = timePoint + one_hour;
 }
 
 void ControladorDeTransito::relatarEstado() {
