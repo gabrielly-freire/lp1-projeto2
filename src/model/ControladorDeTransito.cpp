@@ -8,7 +8,10 @@ ControladorDeTransito::ControladorDeTransito(Connection &connection)
     atualizarListas();
 }
 
-void ControladorDeTransito::cadastrarCidade(std::string nome) {
+void ControladorDeTransito::cadastrarCidade() {
+    std::string nome;
+    cout << "Digite o nome da cidade: ";
+    std::getline(std::cin, nome);
     Cidade *cidade = new Cidade(nome);
 
     if (!validarCidade(cidade)) {
@@ -22,7 +25,20 @@ void ControladorDeTransito::cadastrarCidade(std::string nome) {
     delete cidade;
 }
 
-void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string nomeDestino, int tipo, int distancia) {
+void ControladorDeTransito::cadastrarTrajeto() {
+    std::string nomeOrigem;
+    std::string nomeDestino;
+    int tipo;
+    int distancia;
+
+    cout << "Digite o nome da cidade de origem: ";
+    std::getline(std::cin, nomeOrigem);
+    cout << "Digite o nome da cidade de destino: ";
+    std::getline(std::cin, nomeDestino);
+    cout << "Digite o tipo de Trajeto: ";
+    cin >> tipo;
+    cout << "Digite a distância do Trajeto: ";
+    cin >> distancia;
 
     if (!(tipo == 1 || tipo == 2)) {
         std::cout << "Tipo de trajeto inválido" << std::endl;
@@ -56,25 +72,50 @@ void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string
     delete trajeto;
 }
 
-void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, std::string localAtual){
-    if(!(tipo == 1 || tipo == 2)){
+void ControladorDeTransito::cadastrarTransporte(){
+    std::string nomeTransporte;
+    std::string localAtualTransporte;
+    int tipoTransporte;     
+    int capacidadeTransporte;
+    int velocidadeTransporte;
+    int distanciaDescanso;
+    int tempoDescanso;
+    int tempoDescansoAtual = 0;
+
+    cout << "Digite o nome do transporte: ";
+    std::getline(std::cin, nomeTransporte);
+    cout << "Digite número para o tipo do transporte(1 = terrestre e 2 = aquático): ";
+    cin >> tipoTransporte;
+    cout << "Digite a capacidade do transporte: ";
+    cin >> capacidadeTransporte;
+    cout << "Digite a velocidade do transporte(km/h): ";
+    cin >> velocidadeTransporte;
+    cout << "Digite a distância de descanso(km): ";
+    cin >> distanciaDescanso;
+    cout << "Digite o tempo de descanso(em horas): ";
+    cin >> tempoDescanso;
+    std::cin.ignore();
+    cout << "Digite o local atual do transporte: ";
+    std::getline(std::cin, localAtualTransporte);
+
+    if(!(tipoTransporte == 1 || tipoTransporte == 2)){
         std::cout << "Tipo de trajeto inválido" << std::endl;
         return;
     }
-    if (capacidade <= 0 || velocidade <= 0 || distancia_entre_descansos <= 0 || tempo_de_descanso < 0 || tempo_de_descanso_atual < 0) {
+    if (capacidadeTransporte <= 0 || velocidadeTransporte <= 0 || distanciaDescanso <= 0 || tempoDescanso < 0 || tempoDescansoAtual < 0) {
         std::cout << "Parâmetros inválidos para transporte." << std::endl;
         return;
     }
-    Cidade* local = cidadeDAO.findByNome(localAtual);
+    Cidade* local = cidadeDAO.findByNome(localAtualTransporte);
     if (!local) {
-        Cidade novo_local(localAtual);
+        Cidade novo_local(localAtualTransporte);
         cidadeDAO.create(novo_local);
         atualizarListas();
     }
   
-    Cidade* novoLocal = cidadeDAO.findByNome(localAtual);
+    Cidade* novoLocal = cidadeDAO.findByNome(localAtualTransporte);
     
-    Transporte* transporte = new Transporte(nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso,tempo_de_descanso_atual, novoLocal);
+    Transporte* transporte = new Transporte(nomeTransporte, tipoTransporte, capacidadeTransporte, velocidadeTransporte, distanciaDescanso, tempoDescanso,tempoDescansoAtual, novoLocal);
     transporteDAO.create(*transporte);
     std::cout << "Transporte cadastrado com sucesso!" << std::endl;
     atualizarListas();
@@ -87,7 +128,7 @@ void ControladorDeTransito::cadastrarPassageiro() {
     string local;
     Cidade *localAtual;
 
-    cout << "Digite o nome do passageiro ";
+    cout << "Digite o nome do passageiro: ";
     getline(cin, nome);
     cout << "Digite o nome do cpf do passageiro: ";
     getline(cin, cpf);
