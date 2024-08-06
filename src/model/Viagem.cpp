@@ -1,18 +1,20 @@
 #include "../../include/model/Viagem.hpp"
 
-Viagem::Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino){
+Viagem::Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento){
     this->transporte = transporte;
     this->passageiros = passageiros;
     this->origem = origem;
     this->destino = destino;
 }
 
-Viagem::Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino){
+Viagem::Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento){
     this->id = id;
     this->transporte = transporte;
     this->passageiros = passageiros;
     this->origem = origem;
     this->destino = destino;
+    this->horasEmTransito = horasEmTransito;
+    this->emAndamento = emAndamento;
 }
 
 int Viagem::getId(){
@@ -21,6 +23,10 @@ int Viagem::getId(){
 
 std::vector<Passageiro*> Viagem::getPassageiros(){
     return this->passageiros;
+}
+
+Transporte* Viagem::getTransporte(){
+    return this->transporte;
 }
 
 Cidade* Viagem::getOrigem(){

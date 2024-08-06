@@ -11,7 +11,7 @@
 #include "../dao/PassageiroDAO.hpp"
 #include "../dao/TrajetoDAO.hpp"
 #include "../dao/TransporteDAO.hpp"
-// #include "../dao/ViagemDAO.hpp"
+#include "../dao/ViagemDAO.hpp"
 #include "../dao/ConsultasDAO.hpp"
 #include "dto/CidadeDTO.hpp"
 #include "dto/PassageiroDTO.hpp"
@@ -35,7 +35,7 @@ class ControladorDeTransito {
         PassageiroDAO passageiroDAO;
         TrajetoDAO trajetoDAO;
         TransporteDAO transporteDAO;
-        // ViagemDAO viagemDAO;
+        ViagemDAO viagemDAO;
         ConsultasDAO consultasDAO;
 
     public:
@@ -44,7 +44,7 @@ class ControladorDeTransito {
         void cadastrarTrajeto();
         void cadastrarTransporte();
         void cadastrarPassageiro();
-        void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
+        void cadastrarViagem();
         void avancarHoras(int horas);
         void relatarEstado();
         void gerarRelatorios(int tipo);
@@ -52,6 +52,8 @@ class ControladorDeTransito {
         // métodos auxiliares
         bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
+        bool validarTransporte(Transporte* transporte);
+        void teste();
         void atualizarListas();
 };
 

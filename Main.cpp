@@ -24,7 +24,6 @@ int main() {
                 break;
             case 3:
                 std::cin.ignore();
-                
                 controlador.cadastrarTransporte();
                 break;
             case 4:
@@ -38,6 +37,8 @@ int main() {
                     subOpcao5 = submenu5();
                     switch (subOpcao5) {
                         case 1:
+                            std::cin.ignore();
+                            controlador.cadastrarViagem();
                             break;
                         case 2:
                             break;
@@ -46,10 +47,6 @@ int main() {
                         case 4:
                             break;
                         case 5:
-                            break;
-                        case 6:
-                            break;
-                        case 7:
                             break;
                         case 0:
                             break;

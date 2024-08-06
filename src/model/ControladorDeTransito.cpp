@@ -4,7 +4,7 @@
 using namespace std;
 
 ControladorDeTransito::ControladorDeTransito(Connection &connection)
-    : conn(connection), cidadeDAO(conn), trajetoDAO(conn), passageiroDAO(conn), transporteDAO(conn), consultasDAO(conn) {
+    : conn(connection), cidadeDAO(conn), trajetoDAO(conn), passageiroDAO(conn), transporteDAO(conn), consultasDAO(conn), viagemDAO(conn) {
     atualizarListas();
 }
 
@@ -163,7 +163,70 @@ void ControladorDeTransito::cadastrarPassageiro() {
 
 }
 
-void ControladorDeTransito::iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino) {
+void ControladorDeTransito::cadastrarViagem() {
+    std::string nomeTransporte;
+    std::vector<std::string> nomesPassageiros;
+    std::string nomeOrigem;
+    std::string nomeDestino;
+
+    cout << "Digite a cidade de origem: ";
+    getline(cin, nomeOrigem);
+
+    Cidade* cidadeOrigem = cidadeDAO.findByNome(nomeOrigem);
+    if (cidadeOrigem == nullptr) {
+        cout << "Cidade não cadastrada no banco de dados" << endl;
+        return;
+    }
+
+    cout << "Digite a cidade de destino: ";
+    getline(cin, nomeDestino);
+
+    Cidade* cidadeDestino = cidadeDAO.findByNome(nomeDestino);
+    if (cidadeDestino == nullptr) {
+        cout << "Cidade não cadastrada no banco de dados!" << endl;
+        return;
+    }
+
+    cout << "Digite o nome do transporte: ";
+    getline(cin, nomeTransporte);
+
+    Transporte* transporte = transporteDAO.findByNome(nomeTransporte);
+    if (transporte == nullptr) {
+        cout << "Transporte não cadastrado no banco de dados!" << endl;
+        return;
+    }
+
+    int capacidade_transporte = transporte->getCapacidade();
+    string cpf;
+    vector<Passageiro*> passageiros;
+    char sim_ou_nao;
+    for(int i = 0; i < capacidade_transporte; i++){
+        cout << "Digite o cpf do passageiro: " << endl;
+        getline(cin, cpf);
+        Passageiro* passageiro = passageiroDAO.findByCpf(cpf);
+        if (passageiro == nullptr) {
+        cout << "Passageiro não cadastrada no banco de dados!" << endl;
+        return;
+        }
+        passageiros.push_back(passageiro);
+
+        cout << "Quer mais passageiros? (S/N)";
+        cin >> sim_ou_nao;
+        if(sim_ou_nao == 'N' || sim_ou_nao == 'n'){
+            break;
+        }
+        cin.ignore();
+    }
+
+    Viagem* viagem = new Viagem(transporte, passageiros, cidadeOrigem, cidadeDestino, 0, false);
+
+    viagemDAO.create(*viagem);
+    cout << "Viagem cadastrada com sucesso" << endl;
+    
+    delete viagem;
+    delete cidadeOrigem;
+    delete cidadeDestino;
+    delete transporte;
 }
 
 void ControladorDeTransito::avancarHoras(int horas) {
@@ -238,4 +301,23 @@ bool ControladorDeTransito::validarPassageiro(Passageiro *passageiro) {
         }
     }
     return true;
+}
+
+bool ControladorDeTransito::validarTransporte(Transporte* transporte) {
+    for(int i = 0; i < transportes.size(); i++) {
+        if(transporte == transportes[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+void ControladorDeTransito::teste(){
+    int id = 423735060;
+
+    std::vector<Passageiro*> passageiro = viagemDAO.getPassageiros(id);
+    for (Passageiro* passageiros : passageiro){
+        cout << passageiros->getNome() << endl;
+    }
+
 }
