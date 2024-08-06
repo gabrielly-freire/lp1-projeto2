@@ -20,6 +20,9 @@
 
 #include <vector>
 #include <string>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -45,13 +48,16 @@ class ControladorDeTransito {
         void cadastrarTransporte();
         void cadastrarPassageiro();
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
-        void avancarHoras(int horas);
+        void avancarHoras(std::chrono::system_clock::time_point& timePoint);  
+        std::chrono::system_clock::time_point getCurrentTimePoint() ;
+        std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
         void relatarEstado();
         void gerarRelatorios(int tipo);
 
         // métodos auxiliares
         bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
+        bool validarTransporte(Transporte* transporte);
         void atualizarListas();
 };
 
