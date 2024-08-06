@@ -57,6 +57,7 @@ class ControladorDeTransito {
         // métodos auxiliares
         bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
+        bool validarTransporte(Transporte* transporte);
         void atualizarListas();
 };
 

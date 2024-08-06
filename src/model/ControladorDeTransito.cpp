@@ -57,6 +57,7 @@ void ControladorDeTransito::cadastrarTrajeto(std::string nomeOrigem, std::string
 }
 
 void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int capacidade, int velocidade, int distancia_entre_descansos, int tempo_de_descanso, int tempo_de_descanso_atual, std::string localAtual){
+
     if(!(tipo == 1 || tipo == 2)){
         std::cout << "Tipo de trajeto inválido" << std::endl;
         return;
@@ -75,6 +76,10 @@ void ControladorDeTransito::cadastrarTransporte(std::string nome, int tipo, int 
     Cidade* novoLocal = cidadeDAO.findByNome(localAtual);
     
     Transporte* transporte = new Transporte(nome, tipo, capacidade, velocidade, distancia_entre_descansos, tempo_de_descanso,tempo_de_descanso_atual, novoLocal);
+    if (!validarTransporte(transporte)) {
+        std::cout << "Transporte já cadastrado!" << std::endl;
+        return;
+    }
     transporteDAO.create(*transporte);
     std::cout << "Transporte cadastrado com sucesso!" << std::endl;
     atualizarListas();
@@ -143,6 +148,7 @@ void ControladorDeTransito::avancarHoras(std::chrono::system_clock::time_point& 
 
     // Atualiza o timePoint com a nova duração
     timePoint = timePoint + one_hour;
+    
 }
 
 void ControladorDeTransito::relatarEstado() {
@@ -199,6 +205,15 @@ bool ControladorDeTransito::validarCidade(Cidade* cidade) {
     }
     return true;
 }
+bool ControladorDeTransito::validarTransporte(Transporte* transporte) {
+    for (int i = 0; i < transportes.size(); i++) {
+        if (transportes[i]->getNome() == transporte->getNome()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 void ControladorDeTransito::atualizarListas() {
     cidades = cidadeDAO.findAll();
