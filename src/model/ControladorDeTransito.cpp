@@ -4,7 +4,7 @@
 using namespace std;
 
 ControladorDeTransito::ControladorDeTransito(Connection &connection)
-    : conn(connection), cidadeDAO(conn), trajetoDAO(conn), passageiroDAO(conn), transporteDAO(conn), consultasDAO(conn) {
+    : conn(connection), cidadeDAO(conn), trajetoDAO(conn), passageiroDAO(conn), transporteDAO(conn), consultasDAO(conn), viagemDAO(conn) {
     atualizarListas();
 }
 
@@ -35,12 +35,12 @@ void ControladorDeTransito::cadastrarTrajeto() {
     std::getline(std::cin, nomeOrigem);
     cout << "Digite o nome da cidade de destino: ";
     std::getline(std::cin, nomeDestino);
-    cout << "Digite o tipo de Trajeto: ";
+    cout << "Digite o tipo de Trajeto (1 = terrestre, 2 = aquático, 3 = aéreo): ";
     cin >> tipo;
     cout << "Digite a distância do Trajeto: ";
     cin >> distancia;
 
-    if (!(tipo == 1 || tipo == 2)) {
+    if (!(tipo == 1 || tipo == 2 || tipo == 3)) {
         std::cout << "Tipo de trajeto inválido" << std::endl;
         return;
     }
@@ -84,13 +84,13 @@ void ControladorDeTransito::cadastrarTransporte(){
 
     cout << "Digite o nome do transporte: ";
     std::getline(std::cin, nomeTransporte);
-    cout << "Digite número para o tipo do transporte(1 = terrestre e 2 = aquático): ";
+    cout << "Digite número para o tipo do transporte(1 = terrestre, 2 = aquático, 3 = aéreo): ";
     cin >> tipoTransporte;
     cout << "Digite a capacidade do transporte: ";
     cin >> capacidadeTransporte;
     cout << "Digite a velocidade do transporte(km/h): ";
     cin >> velocidadeTransporte;
-    cout << "Digite a distância de descanso(km): ";
+    cout << "Digite a distância percorrida até o descanso(km): ";
     cin >> distanciaDescanso;
     cout << "Digite o tempo de descanso(em horas): ";
     cin >> tempoDescanso;
@@ -98,7 +98,7 @@ void ControladorDeTransito::cadastrarTransporte(){
     cout << "Digite o local atual do transporte: ";
     std::getline(std::cin, localAtualTransporte);
 
-    if(!(tipoTransporte == 1 || tipoTransporte == 2)){
+    if(!(tipoTransporte == 1 || tipoTransporte == 2 || tipoTransporte == 3)){
         std::cout << "Tipo de trajeto inválido" << std::endl;
         return;
     }
@@ -114,12 +114,14 @@ void ControladorDeTransito::cadastrarTransporte(){
     }
   
     Cidade* novoLocal = cidadeDAO.findByNome(localAtualTransporte);
-    
+
     Transporte* transporte = new Transporte(nomeTransporte, tipoTransporte, capacidadeTransporte, velocidadeTransporte, distanciaDescanso, tempoDescanso,tempoDescansoAtual, novoLocal);
     if (!validarTransporte(transporte)) {
         std::cout << "Transporte já cadastrado!" << std::endl;
+        delete transporte;
         return;
     }
+
     transporteDAO.create(*transporte);
     std::cout << "Transporte cadastrado com sucesso!" << std::endl;
     atualizarListas();
@@ -167,7 +169,75 @@ void ControladorDeTransito::cadastrarPassageiro() {
 
 }
 
-void ControladorDeTransito::iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino) {
+void ControladorDeTransito::cadastrarViagem() {
+    std::string nomeTransporte;
+    std::vector<std::string> nomesPassageiros;
+    std::string nomeOrigem;
+    std::string nomeDestino;
+
+    cout << "Digite a cidade de origem: ";
+    getline(cin, nomeOrigem);
+
+    if (nomeOrigem == "EmTrânsito"){
+        cout << "Cidade de origem não pode ser 'EmTrânsito'" << endl;
+        return;
+    }
+
+    Cidade* cidadeOrigem = cidadeDAO.findByNome(nomeOrigem);
+    if (cidadeOrigem == nullptr) {
+        cout << "Cidade não cadastrada no banco de dados" << endl;
+        return;
+    }
+
+    cout << "Digite a cidade de destino: ";
+    getline(cin, nomeDestino);
+
+    Cidade* cidadeDestino = cidadeDAO.findByNome(nomeDestino);
+    if (cidadeDestino == nullptr) {
+        cout << "Cidade não cadastrada no banco de dados!" << endl;
+        return;
+    }
+
+    cout << "Digite o nome do transporte: ";
+    getline(cin, nomeTransporte);
+
+    Transporte* transporte = transporteDAO.findByNome(nomeTransporte);
+    if (transporte == nullptr) {
+        cout << "Transporte não cadastrado no banco de dados!" << endl;
+        return;
+    }
+
+    int capacidade_transporte = transporte->getCapacidade();
+    string cpf;
+    vector<Passageiro*> passageiros;
+    char sim_ou_nao;
+    for(int i = 0; i < capacidade_transporte; i++){
+        cout << "Digite o cpf do passageiro: " << endl;
+        getline(cin, cpf);
+        Passageiro* passageiro = passageiroDAO.findByCpf(cpf);
+        if (passageiro == nullptr) {
+        cout << "Passageiro não cadastrada no banco de dados!" << endl;
+        return;
+        }
+        passageiros.push_back(passageiro);
+
+        cout << "Quer mais passageiros? (S/N)";
+        cin >> sim_ou_nao;
+        if(sim_ou_nao == 'N' || sim_ou_nao == 'n'){
+            break;
+        }
+        cin.ignore();
+    }
+
+    Viagem* viagem = new Viagem(transporte, passageiros, cidadeOrigem, cidadeDestino, 0, false);
+
+    viagemDAO.create(*viagem);
+    cout << "Viagem cadastrada com sucesso" << endl;
+    
+    delete viagem;
+    delete cidadeOrigem;
+    delete cidadeDestino;
+    delete transporte;
 }
 std::chrono::system_clock::time_point ControladorDeTransito::getCurrentTimePoint() {
     return std::chrono::system_clock::now();
@@ -270,3 +340,13 @@ bool ControladorDeTransito::validarPassageiro(Passageiro *passageiro) {
     }
     return true;
 }
+
+bool ControladorDeTransito::validarTransporte(Transporte* transporte) {
+    for (int i = 0; i < transportes.size(); i++) {
+        if (transportes[i]->getNome() == transporte->getNome()) {
+            return false;
+        }
+    }
+    return true;
+}
+

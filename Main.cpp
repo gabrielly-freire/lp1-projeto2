@@ -29,7 +29,6 @@ int main() {
                 break;
             case 3:
                 std::cin.ignore();
-                
                 controlador.cadastrarTransporte();
                 break;
             case 4:
@@ -44,6 +43,9 @@ int main() {
                     subOpcao5 = submenu5();
                     switch (subOpcao5) {
                         case 1:
+                            std::cin.ignore();
+                            cout << "Cadastrar Viagem" << endl;
+                            controlador.cadastrarViagem();
                             break;
                         case 2:
                             break;
@@ -54,10 +56,6 @@ int main() {
                         case 5:
                         controlador.avancarHoras(hora);
                         horaOutput = controlador.timePointToString(hora);
-                            break;
-                        case 6:
-                            break;
-                        case 7:
                             break;
                         case 0:
                             break;

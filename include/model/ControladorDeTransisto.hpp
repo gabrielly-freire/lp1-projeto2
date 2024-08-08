@@ -11,7 +11,7 @@
 #include "../dao/PassageiroDAO.hpp"
 #include "../dao/TrajetoDAO.hpp"
 #include "../dao/TransporteDAO.hpp"
-// #include "../dao/ViagemDAO.hpp"
+#include "../dao/ViagemDAO.hpp"
 #include "../dao/ConsultasDAO.hpp"
 #include "dto/CidadeDTO.hpp"
 #include "dto/PassageiroDTO.hpp"
@@ -38,7 +38,7 @@ class ControladorDeTransito {
         PassageiroDAO passageiroDAO;
         TrajetoDAO trajetoDAO;
         TransporteDAO transporteDAO;
-        // ViagemDAO viagemDAO;
+        ViagemDAO viagemDAO;
         ConsultasDAO consultasDAO;
 
     public:
@@ -47,6 +47,7 @@ class ControladorDeTransito {
         void cadastrarTrajeto();
         void cadastrarTransporte();
         void cadastrarPassageiro();
+        void cadastrarViagem();
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
         void avancarHoras(std::chrono::system_clock::time_point& timePoint);  
         std::chrono::system_clock::time_point getCurrentTimePoint() ;

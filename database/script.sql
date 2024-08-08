@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS cidades(
     PRIMARY KEY (id)
 );
 
+INSERT INTO cidades(id, nome) VALUES (1, "EmTrânsito");
+
 CREATE TABLE IF NOT EXISTS passageiros(
     cpf VARCHAR(15) NOT NULL,
     nome VARCHAR(50),
@@ -24,7 +26,7 @@ CREATE TABLE IF NOT EXISTS tipo_trajeto(
     PRIMARY KEY(id)
 );
 
-INSERT INTO tipo_trajeto(id, descricao) VALUES (1, "Terrestre"), (2, "Aquático");
+INSERT INTO tipo_trajeto(id, descricao) VALUES (1, "Terrestre"), (2, "Aquático"), (3, "Aéreo");
 
 CREATE TABLE IF NOT EXISTS trajetos(
     id int NOT NULL AUTO_INCREMENT,
@@ -59,19 +61,16 @@ CREATE TABLE IF NOT EXISTS viagens(
     id_cidade_destino INT,
     horas_em_transito INT,
     em_andamento BOOLEAN,
-    id_viagem INT,
     PRIMARY KEY (id),
     FOREIGN KEY(id_transporte) REFERENCES transportes(id),
     FOREIGN KEY(id_cidade_origem) REFERENCES cidades(id),
-    FOREIGN KEY(id_cidade_destino) REFERENCES cidades(id),
-    FOREIGN KEY(id_viagem) REFERENCES viagens(id)
+    FOREIGN KEY(id_cidade_destino) REFERENCES cidades(id)
 );
 
-CREATE TABLE IF NOT EXISTS viagens_passageiros(
-    id_viagens_passageiros INT AUTO_INCREMENT,
-    id_viagem INT,
-    id_passageiro VARCHAR(15),
-    PRIMARY KEY(id_viagens_passageiros),
-    FOREIGN KEY(id_viagem) REFERENCES viagens(id),
-    FOREIGN KEY(id_passageiro) REFERENCES passageiros(cpf)
+CREATE TABLE passageiros_Viagem (
+  id_viagem INT,
+  id_passageiro VARCHAR(15),
+  PRIMARY KEY (id_viagem, id_passageiro),
+  FOREIGN KEY (id_viagem) REFERENCES viagens(id),
+  FOREIGN KEY (id_passageiro) REFERENCES passageiros(cpf)
 );
