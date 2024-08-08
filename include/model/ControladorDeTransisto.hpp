@@ -59,7 +59,9 @@ class ControladorDeTransito {
         bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
         bool validarTransporte(Transporte* transporte);
+        bool validarTrajeto(Trajeto* trajeto);
         void atualizarListas();
+        string para_minusculo(const string& nome);
 };
 
 #endif

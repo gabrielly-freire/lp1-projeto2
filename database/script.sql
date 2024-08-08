@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS cidades(
     PRIMARY KEY (id)
 );
 
-INSERT INTO cidades(id, nome) VALUES (1, "EmTrânsito");
+INSERT INTO cidades(id, nome) VALUES (1, "emtrânsito");
 
 CREATE TABLE IF NOT EXISTS passageiros(
     cpf VARCHAR(15) NOT NULL,
