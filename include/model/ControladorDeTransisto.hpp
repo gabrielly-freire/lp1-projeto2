@@ -53,7 +53,6 @@ class ControladorDeTransito {
         bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
         bool validarTransporte(Transporte* transporte);
-        void teste();
         void atualizarListas();
 };
 
