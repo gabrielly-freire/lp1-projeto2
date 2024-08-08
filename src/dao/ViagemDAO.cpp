@@ -121,3 +121,39 @@ Viagem* ViagemDAO::findById(int id){
     mysql_free_result(result);
     return nullptr;
 }
+
+std::vector<Viagem*> ViagemDAO::findAll(){
+    std::vector<Viagem*> viagens;
+    MYSQL_RES* result;
+    MYSQL_ROW row;
+    char query[] = "SELECT * FROM transportes;";
+
+    if(mysql_query(connection.getConnection(), query)){
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return viagens;
+    }
+
+    result = mysql_store_result(connection.getConnection());
+    while ((row = mysql_fetch_row(result))) {
+        int id = std::stoi(row[0]);
+        int id_transporte = std::stoi(row[1]);
+        int id_cidade_origem = std::stoi(row[1]);
+        int id_cidade_destino  = std::stoi(row[2]);
+        int horas_em_transito = std::stoi(row[3]);
+        bool em_andamento = std::stoi(row[4]) ? 1 : 0;
+        
+        TransporteDAO dao(connection);
+        CidadeDAO daoo(connection);
+        PassageiroDAO daooo(connection);
+        Transporte* transporte = dao.findById(id_transporte);
+        Cidade* cidade_origem = daoo.findById(id_cidade_origem);
+        Cidade* cidade_destino = daoo.findById(id_cidade_destino);
+        std::vector<Passageiro*> passageiros = getPassageiros(id);
+
+        Viagem* viagem = new Viagem(id, transporte, passageiros, cidade_origem, cidade_destino, horas_em_transito, em_andamento);
+        viagens.push_back(viagem);
+    }
+    mysql_free_result(result);
+
+    return viagens;
+}

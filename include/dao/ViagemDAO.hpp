@@ -14,9 +14,7 @@ class ViagemDAO{
         void create(Viagem viagem);
         Viagem* findById(int id);
         std::vector<Passageiro*> getPassageiros(int id_viagem);
-        Viagem* findByOrigem(std::string origem);
-        Viagem* findByDestino(std::string destino);
-        Viagem* findByTransporte(std::string trasnporte);
+        std::vector<Viagem*> findAll();
 };
 
 #endif

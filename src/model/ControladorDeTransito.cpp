@@ -1,5 +1,7 @@
 #include "../../include/model/ControladorDeTransisto.hpp"
 #include <iostream>
+#include <algorithm> 
+#include <cctype> 
 
 using namespace std;
 
@@ -12,10 +14,12 @@ void ControladorDeTransito::cadastrarCidade() {
     std::string nome;
     cout << "Digite o nome da cidade: ";
     std::getline(std::cin, nome);
+    nome = para_minusculo(nome);
     Cidade *cidade = new Cidade(nome);
 
     if (!validarCidade(cidade)) {
         std::cout << "Cidade já cadastrada!" << std::endl;
+        delete cidade;
         return;
     }
 
@@ -39,6 +43,9 @@ void ControladorDeTransito::cadastrarTrajeto() {
     cin >> tipo;
     cout << "Digite a distância do Trajeto: ";
     cin >> distancia;
+
+    nomeOrigem = para_minusculo(nomeOrigem);
+    nomeDestino = para_minusculo(nomeDestino);
 
     if (!(tipo == 1 || tipo == 2 || tipo == 3)) {
         std::cout << "Tipo de trajeto inválido" << std::endl;
@@ -66,6 +73,12 @@ void ControladorDeTransito::cadastrarTrajeto() {
     Cidade *destino = cidadeDAO.findByNome(nomeDestino);
 
     Trajeto *trajeto = new Trajeto(origem, destino, tipo, distancia);
+    if(!validarTrajeto(trajeto)){
+        cout << "Já existe esse trajeto!" << endl;
+        delete trajeto;
+        return;
+    }
+
     trajetoDAO.create(*trajeto);
     std::cout << "Trajeto cadastrado com sucesso!" << std::endl;
     atualizarListas();
@@ -97,6 +110,8 @@ void ControladorDeTransito::cadastrarTransporte(){
     std::cin.ignore();
     cout << "Digite o local atual do transporte: ";
     std::getline(std::cin, localAtualTransporte);
+
+    localAtualTransporte = para_minusculo(localAtualTransporte);
 
     if(!(tipoTransporte == 1 || tipoTransporte == 2 || tipoTransporte == 3)){
         std::cout << "Tipo de trajeto inválido" << std::endl;
@@ -140,6 +155,7 @@ void ControladorDeTransito::cadastrarPassageiro() {
     getline(cin, cpf);
     cout << "Digite o nome da cidade atual do passageiro: ";
     getline(cin, local);
+    local = para_minusculo(local);
     localAtual = cidadeDAO.findByNome(local);
 
     if (localAtual == nullptr) {
@@ -151,11 +167,13 @@ void ControladorDeTransito::cadastrarPassageiro() {
 
     if (passageiro == nullptr) {
         cout << "Nenhum registro encontrado!" << endl;
+        delete passageiro;
         return;
     }
 
     if (!validarPassageiro(passageiro)) {
         cout << "Passageiro já cadastrado!" << endl;
+        delete passageiro;
         return;
     }
 
@@ -178,7 +196,9 @@ void ControladorDeTransito::cadastrarViagem() {
     cout << "Digite a cidade de origem: ";
     getline(cin, nomeOrigem);
 
-    if (nomeOrigem == "EmTrânsito"){
+    nomeOrigem = para_minusculo(nomeOrigem);
+
+    if (nomeOrigem == "emtrânsito"){
         cout << "Cidade de origem não pode ser 'EmTrânsito'" << endl;
         return;
     }
@@ -191,6 +211,8 @@ void ControladorDeTransito::cadastrarViagem() {
 
     cout << "Digite a cidade de destino: ";
     getline(cin, nomeDestino);
+
+    nomeDestino = para_minusculo(nomeDestino);
 
     Cidade* cidadeDestino = cidadeDAO.findByNome(nomeDestino);
     if (cidadeDestino == nullptr) {
@@ -303,6 +325,7 @@ void ControladorDeTransito::atualizarListas() {
     transportes = transporteDAO.findAll();
     trajetos = trajetoDAO.findAll();
     passageiros = passageiroDAO.findAll();
+    viagens = viagemDAO.findAll();
 }
 
 bool ControladorDeTransito::validarPassageiro(Passageiro *passageiro) {
@@ -323,3 +346,18 @@ bool ControladorDeTransito::validarTransporte(Transporte* transporte) {
     return true;
 }
 
+bool ControladorDeTransito::validarTrajeto(Trajeto* trajeto) {
+    for (int i = 0; i < trajetos.size(); i++) {
+        if (trajetos[i] == trajeto) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::string ControladorDeTransito::para_minusculo(const std::string& nome) {
+    std::string resultado = nome;
+    std::transform(resultado.begin(), resultado.end(), resultado.begin(),
+                   [](unsigned char c){ return std::tolower(c); });
+    return resultado;
+}
