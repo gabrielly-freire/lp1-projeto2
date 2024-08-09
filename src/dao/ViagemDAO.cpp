@@ -20,7 +20,7 @@ void ViagemDAO::create(Viagem viagem){
     viagem.getOrigem()->getId(),
     viagem.getDestino()->getId(),
     viagem.getHoraEmTransito(),
-    viagem.isEmAndamento() ? 1 : 0);
+    (viagem.isEmAndamento()) ? 1 : 0);
 
     if (mysql_query(connection.getConnection(), query)) {
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
@@ -100,10 +100,10 @@ Viagem* ViagemDAO::findById(int id){
     if (row) {
         int id = std::stoi(row[0]);
         int id_transporte = std::stoi(row[1]);
-        int id_cidade_origem = std::stoi(row[1]);
-        int id_cidade_destino  = std::stoi(row[2]);
-        int horas_em_transito = std::stoi(row[3]);
-        bool em_andamento = std::stoi(row[4]) ? 1 : 0;
+        int id_cidade_origem = std::stoi(row[2]);
+        int id_cidade_destino  = std::stoi(row[3]);
+        int horas_em_transito = std::stoi(row[4]);
+        bool em_andamento = std::stoi(row[5]);
         
         TransporteDAO dao(connection);
         CidadeDAO daoo(connection);
@@ -126,7 +126,7 @@ std::vector<Viagem*> ViagemDAO::findAll(){
     std::vector<Viagem*> viagens;
     MYSQL_RES* result;
     MYSQL_ROW row;
-    char query[] = "SELECT * FROM transportes;";
+    char query[] = "SELECT * FROM viagens;";
 
     if(mysql_query(connection.getConnection(), query)){
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
@@ -137,10 +137,10 @@ std::vector<Viagem*> ViagemDAO::findAll(){
     while ((row = mysql_fetch_row(result))) {
         int id = std::stoi(row[0]);
         int id_transporte = std::stoi(row[1]);
-        int id_cidade_origem = std::stoi(row[1]);
-        int id_cidade_destino  = std::stoi(row[2]);
-        int horas_em_transito = std::stoi(row[3]);
-        bool em_andamento = std::stoi(row[4]) ? 1 : 0;
+        int id_cidade_origem = std::stoi(row[2]);
+        int id_cidade_destino  = std::stoi(row[3]);
+        int horas_em_transito = std::stoi(row[4]);
+        bool em_andamento = std::stoi(row[5]);
         
         TransporteDAO dao(connection);
         CidadeDAO daoo(connection);
