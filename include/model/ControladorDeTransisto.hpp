@@ -11,7 +11,7 @@
 #include "../dao/PassageiroDAO.hpp"
 #include "../dao/TrajetoDAO.hpp"
 #include "../dao/TransporteDAO.hpp"
-// #include "../dao/ViagemDAO.hpp"
+#include "../dao/ViagemDAO.hpp"
 #include "../dao/ConsultasDAO.hpp"
 #include "dto/CidadeDTO.hpp"
 #include "dto/PassageiroDTO.hpp"
@@ -20,6 +20,9 @@
 
 #include <vector>
 #include <string>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -35,7 +38,7 @@ class ControladorDeTransito {
         PassageiroDAO passageiroDAO;
         TrajetoDAO trajetoDAO;
         TransporteDAO transporteDAO;
-        // ViagemDAO viagemDAO;
+        ViagemDAO viagemDAO;
         ConsultasDAO consultasDAO;
 
     public:
@@ -44,15 +47,21 @@ class ControladorDeTransito {
         void cadastrarTrajeto();
         void cadastrarTransporte();
         void cadastrarPassageiro();
+        void cadastrarViagem();
         void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
-        void avancarHoras(int horas);
+        void avancarHoras(std::chrono::system_clock::time_point& timePoint);  
+        std::chrono::system_clock::time_point getCurrentTimePoint() ;
+        std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
         void relatarEstado();
         void gerarRelatorios(int tipo);
 
         // métodos auxiliares
         bool validarPassageiro(Passageiro* passageiro);
         bool validarCidade(Cidade* cidade);
+        bool validarTransporte(Transporte* transporte);
+        bool validarTrajeto(Trajeto* trajeto);
         void atualizarListas();
+        string para_minusculo(const string& nome);
 };
 
 #endif

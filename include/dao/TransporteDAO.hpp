@@ -17,6 +17,5 @@ class TransporteDAO{
         Transporte* findById(int id);
         Transporte* findByNome(std::string nome);
         std::vector<Transporte*> findAll();
-
 };
 #endif
