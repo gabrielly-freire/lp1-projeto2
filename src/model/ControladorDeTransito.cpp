@@ -246,15 +246,19 @@ void ControladorDeTransito::cadastrarViagem() {
         cout << "Quer mais passageiros? (S/N)";
         cin >> sim_ou_nao;
         if(sim_ou_nao == 'N' || sim_ou_nao == 'n'){
+            cin.ignore();
             break;
         }
         cin.ignore();
+        if(i == capacidade_transporte - 1){
+            cout << "Quantidade máxima de passageiros alcançada!" << endl;
+        }
     }
 
     Viagem* viagem = new Viagem(transporte, passageiros, cidadeOrigem, cidadeDestino, 0, false);
 
     viagemDAO.create(*viagem);
-    cout << "Viagem cadastrada com sucesso" << endl;
+    cout << "Viagem cadastrada com sucesso!" << endl;
     
     delete viagem;
     delete cidadeOrigem;
@@ -375,7 +379,7 @@ bool ControladorDeTransito::validarTransporte(Transporte* transporte) {
 
 bool ControladorDeTransito::validarTrajeto(Trajeto* trajeto) {
     for (int i = 0; i < trajetos.size(); i++) {
-        if (trajetos[i] == trajeto) {
+        if (trajetos[i]->getOrigem()->getId() == trajeto->getOrigem()->getId() && trajetos[i]->getDestino()->getId() == trajeto->getDestino()->getId() && trajetos[i]->getTipo() == trajeto->getTipo() && trajetos[i]->getDistancia() == trajeto->getDistancia()) {
             return false;
         }
     }
