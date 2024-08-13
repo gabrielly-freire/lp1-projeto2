@@ -14,7 +14,9 @@ class ViagemDAO{
         void create(Viagem viagem);
         Viagem* findById(int id);
         std::vector<Passageiro*> getPassageiros(int id_viagem);
+        std::vector<Trajeto*> getTrajetos(int id_viagem);
         std::vector<Viagem*> findAll();
+        Viagem* findUltimaViagem();
 };
 
 #endif
