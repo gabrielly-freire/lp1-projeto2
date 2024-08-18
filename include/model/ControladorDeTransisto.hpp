@@ -46,6 +46,7 @@ class ControladorDeTransito {
         void cadastrarTransporte();
         void cadastrarPassageiro();
         void cadastrarViagem();
+        void verificarRotas();
         void avancarHoras(int horas);
         void relatarEstado();
         void gerarRelatorios(int tipo);

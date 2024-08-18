@@ -262,7 +262,7 @@ void ControladorDeTransito::cadastrarViagem() {
 
     grafo->adicionarAresta(trajetos);
     melhorTrajeto = grafo->dfs(cidadeOrigem->getId(), cidadeDestino->getId(), transporte->getTipo(), trajetos); // Corrigir chamada para incluir tipo
-
+    
     if (melhorTrajeto.empty())
     {
         cout << "Nenhuma rota encontrada! " << endl;
@@ -288,6 +288,67 @@ void ControladorDeTransito::cadastrarViagem() {
     {
         delete melhorTrajeto[i];
     }
+    
+}
+
+void ControladorDeTransito::verificarRotas(){
+    string input;
+    int opcao;
+    int id;
+
+    do
+    {
+        cout << "VIAGENS CADASTRADAS" << endl;
+        for (size_t i = 0; i < viagens.size(); i++)
+        {
+            cout << "Viagem #" << i+1 << " - Código: " << viagens[i]->getId() << endl;
+        }
+        
+        cout << "Digite o código da viagem que deseja verificar os trajetos: ";
+        getline(cin, input);
+
+        try
+        {
+            opcao = stoi(input);
+        }
+        catch(const std::exception& e)
+        {
+            cout << "Opção inválida" << endl;
+            break;
+        }
+
+        Viagem* viagem = viagemDAO.findById(opcao);
+
+        if (viagem == nullptr)
+        {
+            cout << "Nenhuma viagem encontrada!" << endl;
+            break;
+        }
+        
+
+        vector<Trajeto*> trajetos = viagem->getTrajetos();
+
+        cout << "A melhor rota da viagem #" << viagem->getId() << " tem os seguintes trajetos: " << endl;
+        for (size_t i = 0; i < trajetos.size(); i++)
+        {
+            cout << "Trajeto #" << i+1 << " - Cidade Origem: " << trajetos[i]->getOrigem()->getNome() << " - Cidade Destino: " << 
+            trajetos[i]->getDestino()->getNome() << endl;
+        }
+
+        cout << "Digite 1 para continuar verificando: ";
+        getline(cin, input);
+
+        try
+        {
+            opcao = stoi(input);
+        }
+        catch(const std::exception& e)
+        {
+            cout<< "Opcao invalida!" << endl;
+            break;
+        }
+        
+    } while (opcao == 1);
     
 }
 

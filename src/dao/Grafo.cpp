@@ -76,6 +76,7 @@ vector<Trajeto*> Grafo::melhorRota(vector<tuple<vector<tuple<int, int, int>>, in
 		cout << "Trajeto #" << i+1 << " - Cidade de Origem: " << melhorTrajeto[i]->getOrigem()->getId() << " - Cidade Destino: " << melhorTrajeto[i]->getDestino()->getId() << endl;
 	}*/
 	
+	
 	return melhorTrajeto;
 
 }
@@ -86,6 +87,7 @@ vector<Trajeto*> Grafo::dfs(int v, int w, int tipoTransporte, std::vector<Trajet
 	vector<int> distancia;
 	bool regrediu = false;
 	vector<tuple<vector<tuple<int, int, int>>, int>> conexoes; // Corrigido o tipo
+	vector<Trajeto*> melhorTrajeto;
 
     // Vetor de visitados
 	for (int i = 0; i < V; i++)
@@ -192,8 +194,15 @@ vector<Trajeto*> Grafo::dfs(int v, int w, int tipoTransporte, std::vector<Trajet
 					}
 					cout << "Distância Acumulada: " << get<1>(conexoes[i]) << endl;
 				}*/
-                
-				return melhorRota(conexoes, trajetos);
+
+				if (conexoes.empty())
+				{
+					return melhorTrajeto;
+				}
+
+				melhorTrajeto = melhorRota(conexoes, trajetos);
+				
+				return melhorTrajeto;
 
 				break;
 			}
