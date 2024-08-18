@@ -144,7 +144,7 @@ Viagem* ViagemDAO::findById(int id){
     MYSQL_RES* result;
     MYSQL_ROW row;
     char query[200];
-    sprintf(query, "SELECT * FROM transportes WHERE id = %d;", id);
+    sprintf(query, "SELECT * FROM viagens WHERE id = %d;", id);
 
     if (mysql_query(connection.getConnection(), query)) {
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
