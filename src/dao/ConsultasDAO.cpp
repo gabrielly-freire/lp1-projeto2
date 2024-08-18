@@ -8,7 +8,7 @@ std::vector<PassageiroDTO*> ConsultasDAO::relatorioLocalidadePassagerios(){
     MYSQL_RES* result;
     MYSQL_ROW row;
     std::string query = "SELECT p.cpf, p.nome, CASE WHEN v.em_andamento = TRUE THEN 'em trânsito' ELSE c.nome END "
-        "FROM passageiros p LEFT JOIN (SELECT vp.id_passageiro, v.em_andamento FROM viagens_passageiros vp JOIN viagens v ON vp.id_viagem = v.id "
+        "FROM passageiros p LEFT JOIN (SELECT vp.id_passageiro, v.em_andamento FROM passageiros_Viagem vp JOIN viagens v ON vp.id_viagem = v.id "
         "WHERE v.em_andamento = TRUE) v ON p.cpf = v.id_passageiro LEFT JOIN cidades c ON p.id_cidade_atual = c.id;";
 
     if(mysql_query(connection.getConnection(), query.c_str())){
@@ -29,7 +29,6 @@ std::vector<PassageiroDTO*> ConsultasDAO::relatorioLocalidadePassagerios(){
 }
 
 std::vector<TransporteDTO*> ConsultasDAO::relatorioLocalidadeTransportes(){
-    
     std::vector<TransporteDTO*> transportes;
     MYSQL_RES* result;
     MYSQL_ROW row;
@@ -59,7 +58,7 @@ std::vector<CidadeDTO*> ConsultasDAO::relatorioCidadesMaisVisitadas(){
     MYSQL_RES* result;
     MYSQL_ROW row;
     std::string query = "SELECT c.nome, COUNT(vp.id_viagem) AS total_visitas FROM cidades c JOIN "
-        "viagens v ON c.id = v.id_cidade_destino JOIN viagens_passageiros vp ON v.id = vp.id_viagem "
+        "viagens v ON c.id = v.id_cidade_destino JOIN passageiros_Viagem vp ON v.id = vp.id_viagem "
         "GROUP BY c.id, c.nome ORDER BY total_visitas DESC;";
 
     if(mysql_query(connection.getConnection(), query.c_str())){
@@ -90,6 +89,7 @@ std::vector<ViagemDTO*> ConsultasDAO::relatorioViagensEmAndamento(){
     std::string query = "SELECT t.nome, c_origem.nome, c_destino.nome FROM viagens v JOIN cidades c_origem ON v.id_cidade_origem = c_origem.id "
         "JOIN cidades c_destino on v.id_cidade_destino = c_destino.id JOIN transportes t ON t.id = v.id_transporte "
         "WHERE v.em_andamento = TRUE"; 
+
     if(mysql_query(connection.getConnection(), query.c_str())){
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
         return viagens;
