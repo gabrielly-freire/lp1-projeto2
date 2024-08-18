@@ -38,7 +38,6 @@ int main() {
                     switch (subOpcao5) {
                         case 1:
                             std::cin.ignore();
-                            cout << "Cadastrar Viagem" << endl;
                             controlador.cadastrarViagem();
                             break;
                         case 2:
@@ -48,6 +47,8 @@ int main() {
                         case 4:
                             break;
                         case 5:
+                            cin.ignore();
+                            controlador.verificarRotas();
                             break;
                         case 0:
                             break;
