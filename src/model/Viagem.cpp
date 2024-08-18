@@ -21,25 +21,6 @@ Viagem::Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passagei
     this->emAndamento = emAndamento;
 }
 
-Viagem::Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento){
-    this->transporte = transporte;
-    this->passageiros = passageiros;
-    this->origem = origem;
-    this->destino = destino;
-    this->horasEmTransito = horasEmTransito;
-    this->emAndamento = emAndamento;
-}
-
-Viagem::Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento){
-    this->id = id;
-    this->transporte = transporte;
-    this->passageiros = passageiros;
-    this->origem = origem;
-    this->destino = destino;
-    this->horasEmTransito = horasEmTransito;
-    this->emAndamento = emAndamento;
-}
-
 int Viagem::getId(){
     return this->id;
 }

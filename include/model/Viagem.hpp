@@ -21,9 +21,6 @@ class Viagem {
     public:
         Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento);
         Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento);
-        Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento);
-        Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento);
-
 
         int getId();
         std::vector<Passageiro*> getPassageiros();

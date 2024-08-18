@@ -192,6 +192,10 @@ void ControladorDeTransito::cadastrarViagem() {
     std::vector<std::string> nomesPassageiros;
     std::string nomeOrigem;
     std::string nomeDestino;
+    
+    vector<Trajeto*> melhorTrajeto;
+    int tamanho = static_cast<int>(cidades.size() + 1);
+    Grafo* grafo = new Grafo(tamanho);
 
     cout << "Digite a cidade de origem: ";
     getline(cin, nomeOrigem);
@@ -234,7 +238,7 @@ void ControladorDeTransito::cadastrarViagem() {
     vector<Passageiro*> passageiros;
     char sim_ou_nao;
     for(int i = 0; i < capacidade_transporte; i++){
-        cout << "Digite o cpf do passageiro: " << endl;
+        cout << "Digite o cpf do passageiro: ";
         getline(cin, cpf);
         Passageiro* passageiro = passageiroDAO.findByCpf(cpf);
         if (passageiro == nullptr) {
@@ -255,15 +259,36 @@ void ControladorDeTransito::cadastrarViagem() {
         }
     }
 
-    Viagem* viagem = new Viagem(transporte, passageiros, cidadeOrigem, cidadeDestino, 0, false);
+
+    grafo->adicionarAresta(trajetos);
+    melhorTrajeto = grafo->dfs(cidadeOrigem->getId(), cidadeDestino->getId(), transporte->getTipo(), trajetos); // Corrigir chamada para incluir tipo
+
+    if (melhorTrajeto.empty())
+    {
+        cout << "Nenhuma rota encontrada! " << endl;
+        delete cidadeOrigem;
+        delete cidadeDestino;
+        delete transporte;
+        return;
+    }
+    
+    
+    Viagem* viagem = new Viagem(transporte, passageiros, melhorTrajeto, cidadeOrigem, cidadeDestino, 0, false);
 
     viagemDAO.create(*viagem);
     cout << "Viagem cadastrada com sucesso!" << endl;
+
+    atualizarListas();
     
     delete viagem;
     delete cidadeOrigem;
     delete cidadeDestino;
     delete transporte;
+    for (size_t i = 0; i < melhorTrajeto.size(); i++)
+    {
+        delete melhorTrajeto[i];
+    }
+    
 }
 
 void ControladorDeTransito::avancarHoras(int horas) {

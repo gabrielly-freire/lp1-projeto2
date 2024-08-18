@@ -17,6 +17,7 @@
 #include "dto/PassageiroDTO.hpp"
 #include "dto/TransporteDTO.hpp"
 #include "dto/ViagemDTO.hpp"
+#include "Grafo.hpp"
 
 #include <vector>
 #include <string>
