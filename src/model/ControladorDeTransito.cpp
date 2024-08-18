@@ -298,6 +298,7 @@ void ControladorDeTransito::verificarRotas(){
 
     do
     {
+        //oi
         cout << "VIAGENS CADASTRADAS" << endl;
         for (size_t i = 0; i < viagens.size(); i++)
         {
