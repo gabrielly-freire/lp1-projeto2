@@ -10,12 +10,7 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
 - [x] 4. Cadastro de Passageiros
 - [ ] 5. Gestão de Viagens
   - [ ] Iniciar viagem entre cidades
-    - Só permitir se for possível
-  - [ ] Escolher o transporte e passageiros
-  - [ ] Verificar se o transporte está na cidade de origem
-  - [ ] Registrar a partida do transporte
   - [ ] Avançar horas e atualizar estado do sistema
-  - [ ] Registrar chegada do transporte na cidade de destino
   - [ ] Calcular o melhor trajeto entre cidades
 - [x] 6. Consultas e Relatórios
   - [x] Relatar onde estão cada pessoa (cidade ou em trânsito, informando origem-destino-transporte)
@@ -68,4 +63,27 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
 
    ```bash
    ./main
-   ``` 
+   ```
+
+<!-- ## Explicação das funcionalidades
+
+1. Cadastro de Cidades
+2. Cadastro de Trajetos
+3. Cadastro de Transportes
+4. Cadastro de Passageiros
+5. Gestão de Viagens
+   5.1. Iniciar viagem entre cidades
+   5.2. Avançar horas e atualizar estado do sistema
+   5.3. Calcular o melhor trajeto entre cidades
+6. Consultas e Relatórios
+  6.1. Relatar onde estão cada pessoa (cidade ou em trânsito, informando origem-destino-transporte)
+  6.2. Relatar onde está cada transporte (cidade ou em trânsito)
+  6.3. Relatar todas as viagens em andamento
+  6.4. Relatar as cidades mais visitadas -->
+
+## Autores
+
+- [Fernando Silva dos Santos](https://github.com/nandosannn)
+- [Francisca Gabrielly Lopes Freire](https://github.com/gabrielly-freire)
+- [Gustavo Oliveira de Freitas](https://github.com/Gustaa13)
+- [Hendryl Marques Rocha](https://github.com/Ndryl)
