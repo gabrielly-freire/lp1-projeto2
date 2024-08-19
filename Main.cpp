@@ -44,18 +44,19 @@ int main() {
                     switch (subOpcao5) {
                         case 1:
                             std::cin.ignore();
-                            cout << "Cadastrar Viagem" << endl;
                             controlador.cadastrarViagem();
                             break;
                         case 2:
                             break;
                         case 3:
+                            controlador.avancarHoras(hora);
+                            horaOutput = controlador.timePointToString(hora);
                             break;
                         case 4:
                             break;
                         case 5:
-                        controlador.avancarHoras(hora);
-                        horaOutput = controlador.timePointToString(hora);
+                            cin.ignore();
+                            controlador.verificarRotas();
                             break;
                         case 0:
                             break;

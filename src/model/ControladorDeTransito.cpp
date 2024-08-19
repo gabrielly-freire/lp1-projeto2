@@ -192,6 +192,10 @@ void ControladorDeTransito::cadastrarViagem() {
     std::vector<std::string> nomesPassageiros;
     std::string nomeOrigem;
     std::string nomeDestino;
+    
+    vector<Trajeto*> melhorTrajeto;
+    int tamanho = static_cast<int>(cidades.size() + 1);
+    Grafo* grafo = new Grafo(tamanho);
 
     cout << "Digite a cidade de origem: ";
     getline(cin, nomeOrigem);
@@ -234,7 +238,7 @@ void ControladorDeTransito::cadastrarViagem() {
     vector<Passageiro*> passageiros;
     char sim_ou_nao;
     for(int i = 0; i < capacidade_transporte; i++){
-        cout << "Digite o cpf do passageiro: " << endl;
+        cout << "Digite o cpf do passageiro: ";
         getline(cin, cpf);
         Passageiro* passageiro = passageiroDAO.findByCpf(cpf);
         if (passageiro == nullptr) {
@@ -255,15 +259,98 @@ void ControladorDeTransito::cadastrarViagem() {
         }
     }
 
-    Viagem* viagem = new Viagem(transporte, passageiros, cidadeOrigem, cidadeDestino, 0, false);
+
+    grafo->adicionarAresta(trajetos);
+    melhorTrajeto = grafo->dfs(cidadeOrigem->getId(), cidadeDestino->getId(), transporte->getTipo(), trajetos); // Corrigir chamada para incluir tipo
+    
+    if (melhorTrajeto.empty())
+    {
+        cout << "Nenhuma rota encontrada! " << endl;
+        delete cidadeOrigem;
+        delete cidadeDestino;
+        delete transporte;
+        return;
+    }
+    
+    
+    Viagem* viagem = new Viagem(transporte, passageiros, melhorTrajeto, cidadeOrigem, cidadeDestino, 0, false);
 
     viagemDAO.create(*viagem);
     cout << "Viagem cadastrada com sucesso!" << endl;
+
+    atualizarListas();
     
     delete viagem;
     delete cidadeOrigem;
     delete cidadeDestino;
     delete transporte;
+    for (size_t i = 0; i < melhorTrajeto.size(); i++)
+    {
+        delete melhorTrajeto[i];
+    }
+    
+}
+
+void ControladorDeTransito::verificarRotas(){
+    string input;
+    int opcao;
+    int id;
+
+    do
+    {
+        //oi
+        cout << "VIAGENS CADASTRADAS" << endl;
+        for (size_t i = 0; i < viagens.size(); i++)
+        {
+            cout << "Viagem #" << i+1 << " - Código: " << viagens[i]->getId() << endl;
+        }
+        
+        cout << "Digite o código da viagem que deseja verificar os trajetos: ";
+        getline(cin, input);
+
+        try
+        {
+            opcao = stoi(input);
+        }
+        catch(const std::exception& e)
+        {
+            cout << "Opção inválida" << endl;
+            break;
+        }
+
+        Viagem* viagem = viagemDAO.findById(opcao);
+
+        if (viagem == nullptr)
+        {
+            cout << "Nenhuma viagem encontrada!" << endl;
+            break;
+        }
+        
+
+        vector<Trajeto*> trajetos = viagem->getTrajetos();
+
+        cout << "A melhor rota da viagem #" << viagem->getId() << " tem os seguintes trajetos: " << endl;
+        for (size_t i = 0; i < trajetos.size(); i++)
+        {
+            cout << "Trajeto #" << i+1 << " - Cidade Origem: " << trajetos[i]->getOrigem()->getNome() << " - Cidade Destino: " << 
+            trajetos[i]->getDestino()->getNome() << endl;
+        }
+
+        cout << "Digite 1 para continuar verificando: ";
+        getline(cin, input);
+
+        try
+        {
+            opcao = stoi(input);
+        }
+        catch(const std::exception& e)
+        {
+            cout<< "Opcao invalida!" << endl;
+            break;
+        }
+        
+    } while (opcao == 1);
+    
 }
 std::chrono::system_clock::time_point ControladorDeTransito::getCurrentTimePoint() {
     return std::chrono::system_clock::now();
