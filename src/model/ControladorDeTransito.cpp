@@ -428,15 +428,6 @@ bool ControladorDeTransito::validarCidade(Cidade* cidade) {
     }
     return true;
 }
-bool ControladorDeTransito::validarTransporte(Transporte* transporte) {
-    for (int i = 0; i < transportes.size(); i++) {
-        if (transportes[i]->getNome() == transporte->getNome()) {
-            return false;
-        }
-    }
-    return true;
-}
-
 
 void ControladorDeTransito::atualizarListas() {
     cidades = cidadeDAO.findAll();
