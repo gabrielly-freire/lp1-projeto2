@@ -17,10 +17,10 @@ class Viagem {
         Cidade* destino;
         Viagem *proxima;
         int horasEmTransito;
-        bool emAndamento;
+        int statusViagem;
     public:
-        Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento);
-        Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento);
+        Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, int statusViagem);
+        Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, int statusViagem);
 
         int getId();
         std::vector<Passageiro*> getPassageiros();
@@ -30,7 +30,7 @@ class Viagem {
         Viagem* getProxima();
         Transporte* getTransporte();
         int getHoraEmTransito();
-        bool isEmAndamento();
+        int getStatusViagem();
 
         void iniciarViagem();
         void avancarHoras(int horas);

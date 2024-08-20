@@ -1,16 +1,16 @@
 #include "../../include/model/Viagem.hpp"
 
-Viagem::Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento){
+Viagem::Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, int emAndamento){
     this->transporte = transporte;
     this->passageiros = passageiros;
     this->trajetos = trajetos;
     this->origem = origem;
     this->destino = destino;
     this->horasEmTransito = horasEmTransito;
-    this->emAndamento = emAndamento;
+    this->statusViagem = emAndamento;
 }
 
-Viagem::Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, bool emAndamento){
+Viagem::Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, int emAndamento){
     this->id = id;
     this->transporte = transporte;
     this->passageiros = passageiros;
@@ -18,7 +18,7 @@ Viagem::Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passagei
     this->origem = origem;
     this->destino = destino;
     this->horasEmTransito = horasEmTransito;
-    this->emAndamento = emAndamento;
+    this->statusViagem = emAndamento;
 }
 
 int Viagem::getId(){
@@ -53,8 +53,8 @@ int Viagem::getHoraEmTransito(){
     return this->horasEmTransito;
 }
 
-bool Viagem::isEmAndamento(){
-    return this->emAndamento;
+int Viagem::getStatusViagem(){
+    return this->statusViagem;
 }
 
 void iniciarViagem(){

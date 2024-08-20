@@ -15,7 +15,7 @@ void ControladorDeTransito::cadastrarCidade() {
     cout << "Digite o nome da cidade: ";
     std::getline(std::cin, nome);
     nome = para_minusculo(nome);
-    Cidade *cidade = new Cidade(nome);
+    Cidade *cidade = new Cidade(nome, 0);
 
     if (!validarCidade(cidade)) {
         std::cout << "Cidade já cadastrada!" << std::endl;
@@ -273,7 +273,7 @@ void ControladorDeTransito::cadastrarViagem() {
     }
     
     
-    Viagem* viagem = new Viagem(transporte, passageiros, melhorTrajeto, cidadeOrigem, cidadeDestino, 0, false);
+    Viagem* viagem = new Viagem(transporte, passageiros, melhorTrajeto, cidadeOrigem, cidadeDestino, 0, 0);
 
     viagemDAO.create(*viagem);
     cout << "Viagem cadastrada com sucesso!" << endl;

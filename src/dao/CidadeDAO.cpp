@@ -6,7 +6,7 @@ CidadeDAO::CidadeDAO(Connection& conn): connection(conn){}
 
 void CidadeDAO::create(Cidade cidade){
     char query[200]; 
-    sprintf(query, "INSERT INTO cidades (nome) VALUES ('%s');", cidade.getNome().c_str());
+    sprintf(query, "INSERT INTO cidades (nome, visitas) VALUES ('%s', %d);", cidade.getNome().c_str(), cidade.getVisitas());
     if(mysql_query(connection.getConnection(), query)){
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
         return;
@@ -26,7 +26,8 @@ std::vector<Cidade*> CidadeDAO::findAll(){
     while ((row = mysql_fetch_row(result))) {
         int id = std::stoi(row[0]);
         std::string nome = row[1];
-        Cidade* cidade = new Cidade(id, nome);
+         int visitas = std::stoi(row[2]);
+        Cidade* cidade = new Cidade(id, nome, visitas);
         cidades.push_back(cidade);
     }
     mysql_free_result(result);
@@ -54,7 +55,8 @@ Cidade* CidadeDAO::findById(int id) {
     row = mysql_fetch_row(result);
     if (row) {
         std::string nome = row[1];
-        Cidade* cidade = new Cidade (id, nome);
+        int visitas = std::stoi(row[2]);
+        Cidade* cidade = new Cidade (id, nome, visitas);
         mysql_free_result(result);
         return cidade;
     }
@@ -84,8 +86,9 @@ Cidade* CidadeDAO::findByNome(std::string nome) {
     row = mysql_fetch_row(result);
     if (row) {
         int id = std::stoi(row[0]); 
+        int visitas = std::stoi(row[2]);
         std::string nomeCidade = row[1];
-        Cidade* cidade = new Cidade(id, nomeCidade);
+        Cidade* cidade = new Cidade(id, nomeCidade, visitas);
         mysql_free_result(result);
         return cidade;
     }
