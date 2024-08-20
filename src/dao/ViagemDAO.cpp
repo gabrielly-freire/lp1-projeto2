@@ -9,10 +9,13 @@
 #include <iostream>
 
 
+//Inserir viagem no banco de dados sem o trajeto direto ou melhor trajeto.
 ViagemDAO::ViagemDAO(Connection& conn): connection(conn) {}
 void ViagemDAO::create(Viagem viagem){
     MYSQL *mysql = connection.getConnection();
     char query[200];
+    
+    //Inserir viagem ao banco de dados na tabela "viagebs"
     sprintf(query,
     "INSERT INTO viagens (id_transporte, id_cidade_origem, id_cidade_destino, horas_em_transito, em_andamento) " 
     "VALUES (%d, %d, %d, %d, %d);", 
@@ -27,8 +30,8 @@ void ViagemDAO::create(Viagem viagem){
         return;
     }
 
+    //Adicionar passageiros à ultima viagem cadastrada no banco de dados na tabela "passageiros_Viagem"
     ViagemDAO dao(connection);
-
     std::vector<Passageiro*> passageiros = viagem.getPassageiros();
     Viagem* nova_viagem = dao.findUltimaViagem();
     for (Passageiro* passageiro : passageiros) {
@@ -44,7 +47,8 @@ void ViagemDAO::create(Viagem viagem){
         }
     }
 
-    /*std::vector<Trajeto*> trajetos = viagem.getTrajetos();
+    //Adicionar o trajeto de viagem ao banco de dados na tabela "trajetos_Viagem"
+    std::vector<Trajeto*> trajetos = viagem.getTrajetos();
     for (Trajeto* trajeto : trajetos) {
         char query_trajeto[100];
         sprintf(query_trajeto,
@@ -56,9 +60,10 @@ void ViagemDAO::create(Viagem viagem){
             std::cerr << "Erro ao executar a query: " << mysql_error(mysql) << std::endl;
             return;
         }
-    }*/
+    }
 }
 
+//Retornar os passageiros de uma determinada viagem
 std::vector<Passageiro*> ViagemDAO::getPassageiros(int id_viagem) {
     MYSQL *mysql = connection.getConnection();
     std::vector<Passageiro*> passageiros;
@@ -96,6 +101,7 @@ std::vector<Passageiro*> ViagemDAO::getPassageiros(int id_viagem) {
     return passageiros;
 }
 
+//Retornar os trajetos de uma determinada viagem
 std::vector<Trajeto*> ViagemDAO::getTrajetos(int id_viagem) {
     MYSQL *mysql = connection.getConnection();
     std::vector<Trajeto*> trajetos;
@@ -133,6 +139,7 @@ std::vector<Trajeto*> ViagemDAO::getTrajetos(int id_viagem) {
     return trajetos;
 }
 
+
 Viagem* ViagemDAO::findById(int id){
     MYSQL_RES* result;
     MYSQL_ROW row;
@@ -162,12 +169,14 @@ Viagem* ViagemDAO::findById(int id){
         TransporteDAO dao(connection);
         CidadeDAO daoo(connection);
         PassageiroDAO daooo(connection);
+        TrajetoDAO trajetoDAO(connection);
         Transporte* transporte = dao.findById(id_transporte);
         Cidade* cidade_origem = daoo.findById(id_cidade_origem);
         Cidade* cidade_destino = daoo.findById(id_cidade_destino);
         std::vector<Passageiro*> passageiros = getPassageiros(id);
-
-        Viagem* viagem = new Viagem(id, transporte, passageiros, cidade_origem, cidade_destino, horas_em_transito, em_andamento);
+        std::vector<Trajeto*> trajetos = getTrajetos(id);
+        //Incluir trajetos também?
+        Viagem* viagem = new Viagem(id, transporte, passageiros, trajetos, cidade_origem, cidade_destino, horas_em_transito, em_andamento);
         mysql_free_result(result);
         return viagem;
     }
@@ -199,12 +208,14 @@ std::vector<Viagem*> ViagemDAO::findAll(){
         TransporteDAO dao(connection);
         CidadeDAO daoo(connection);
         PassageiroDAO daooo(connection);
+        TrajetoDAO trajetoDao(connection);
         Transporte* transporte = dao.findById(id_transporte);
         Cidade* cidade_origem = daoo.findById(id_cidade_origem);
         Cidade* cidade_destino = daoo.findById(id_cidade_destino);
         std::vector<Passageiro*> passageiros = getPassageiros(id);
-
-        Viagem* viagem = new Viagem(id, transporte, passageiros, cidade_origem, cidade_destino, horas_em_transito, em_andamento);
+        std::vector<Trajeto*> trajetos= getTrajetos(id);
+        //Inlcuir trajetos também?
+        Viagem* viagem = new Viagem(id, transporte, passageiros, trajetos, cidade_origem, cidade_destino, horas_em_transito, em_andamento);
         viagens.push_back(viagem);
     }
     mysql_free_result(result);
@@ -242,13 +253,15 @@ Viagem* ViagemDAO::findUltimaViagem() {
         TransporteDAO transporteDao(connection);
         CidadeDAO cidadeDao(connection);
         PassageiroDAO passageiroDao(connection);
+        TrajetoDAO trajetoDAO(connection);
         
         Transporte* transporte = transporteDao.findById(id_transporte);
         Cidade* cidade_origem = cidadeDao.findById(id_cidade_origem);
         Cidade* cidade_destino = cidadeDao.findById(id_cidade_destino);
         std::vector<Passageiro*> passageiros = getPassageiros(id);
-
-        Viagem* viagem = new Viagem(id, transporte, passageiros, cidade_origem, cidade_destino, horas_em_transito, em_andamento);
+        std::vector<Trajeto*> trajetos = getTrajetos(id);
+        //Incluir trajetos também?
+        Viagem* viagem = new Viagem(id, transporte, passageiros, trajetos, cidade_origem, cidade_destino, horas_em_transito, em_andamento);
         
         mysql_free_result(result);
         
