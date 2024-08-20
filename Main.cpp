@@ -47,16 +47,15 @@ int main() {
                             controlador.cadastrarViagem();
                             break;
                         case 2:
-                            break;
-                        case 3:
-                            controlador.avancarHoras(hora);
-                            horaOutput = controlador.timePointToString(hora);
-                            break;
-                        case 4:
-                            break;
-                        case 5:
                             cin.ignore();
                             controlador.verificarRotas();
+                            break;
+                        case 3:
+                            //Iniciar viagem
+                            break;
+                        case 4:
+                            controlador.avancarHoras(hora);
+                            horaOutput = controlador.timePointToString(hora);
                             break;
                         case 0:
                             break;

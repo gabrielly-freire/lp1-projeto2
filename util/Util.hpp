@@ -26,8 +26,9 @@ int submenu5(){
     cout << "===== Gestão de Viagens =====" << endl << endl;
     cout << "Escolha uma operação:" << endl;
     cout << "1. Cadastrar Viagem" << endl;
-    cout << "2. Iniciar viagem" << endl;
-    cout << "3. Avançar horas e atualizar estado do sistema" << endl;
+    cout << "2. Verificar rota de Viagem" << endl;
+    cout << "3. Iniciar viagem" << endl;
+    cout << "4. Avançar horas e atualizar estado do sistema" << endl;
     cout << "0. Voltar ao menu principal" << endl << endl;
     cout << "Opção: ";
     cin >> op;
