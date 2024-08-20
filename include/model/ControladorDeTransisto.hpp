@@ -51,9 +51,9 @@ class ControladorDeTransito {
         void cadastrarViagem();
         void verificarRotas();
         void avancarHoras(int horas);
-        void iniciarViagem(std::string nomeTransporte, std::vector<std::string> nomesPassageiros, std::string nomeOrigem, std::string nomeDestino);
+        void iniciarViagem();
         void avancarHoras(std::chrono::system_clock::time_point& timePoint);  
-        std::chrono::system_clock::time_point getCurrentTimePoint() ;
+        std::chrono::system_clock::time_point getCurrentTimePoint();
         std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
 
         void relatarEstado();

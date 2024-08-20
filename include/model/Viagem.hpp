@@ -31,6 +31,7 @@ class Viagem {
         Transporte* getTransporte();
         int getHoraEmTransito();
         int getStatusViagem();
+        void setStatusViagem(int status);
 
         void iniciarViagem();
         void avancarHoras(int horas);

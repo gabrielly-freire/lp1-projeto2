@@ -271,3 +271,5 @@ Viagem* ViagemDAO::findUltimaViagem() {
     mysql_free_result(result);
     return nullptr;
 }
+
+

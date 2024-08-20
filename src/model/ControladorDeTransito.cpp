@@ -350,10 +350,93 @@ void ControladorDeTransito::verificarRotas(){
         }
         
     } while (opcao == 1);
-    
 }
 std::chrono::system_clock::time_point ControladorDeTransito::getCurrentTimePoint() {
     return std::chrono::system_clock::now();
+}
+
+void ControladorDeTransito::iniciarViagem(){
+    string input;
+    int opcao;
+    
+    cout << "=======LISTA DE VIAGEMS======="<<endl;
+    for (size_t i = 0; i < viagens.size(); i++)
+    {
+        cout << "Viagem #" << i+1 << " - Código: " << viagens[i]->getId() << " - Cidade de Origem: " << viagens[i]->getOrigem()->getNome()
+        << " - Cidade Destino: " << viagens[i]->getDestino()->getNome() << endl;
+    }
+
+    cout << "Digite o código da cidade que deseja iniciar: ";
+    getline(cin, input);
+
+    try{
+        opcao = stoi(input);
+    }
+    catch(const std::exception& e)
+    {
+        cout << "Opcao invalida." << endl;
+        return;
+    }
+
+    Viagem* viagem = viagemDAO.findById(opcao);
+    if (viagem = nullptr){
+        cout << "Viagem não encontrada!" << endl;
+        return;
+    }
+
+    if (viagem->getTransporte()->getLocalAtual() != viagem->getOrigem()){
+        cout << "Transporte: " << viagem->getTransporte()->getNome() << " não está na cidade de origem da viagem." << endl;
+    }
+
+    for (size_t i = 0; i < viagem->getPassageiros().size(); i++){
+        if (viagem->getPassageiros()[i]->getLocalAtual() != viagem->getOrigem()){
+            cout << "Passageiro: " << viagem->getPassageiros()[i]->getNome() << " não está na cidade de origem da viagem." << endl;
+            cout << "Não é possível iniciar viagem!" << endl;
+            return;
+        }
+    }
+
+    //Iniciar mudança de status
+    for (size_t i = 0; i < transportes.size(); i++)
+    {
+        if (transportes[i] == viagem->getTransporte())
+        {
+            transportes[i]->setLocalAtual(cidadeDAO.findById(1));
+            break;
+        }
+        
+    }
+
+    bool encontrou = false;
+    for (size_t i = 0; i < viagem->getPassageiros().size(); i++)
+    {
+        for (size_t j = 0; j < passageiros.size(); j++)
+        {
+            if (viagem->getPassageiros()[i] == passageiros[j])
+            {
+                passageiros[i]->setLocalAtual(cidadeDAO.findById(1));
+                encontrou = true;
+                break;
+            }
+            
+        }
+        if (encontrou)
+        {
+            break;
+        }
+    }
+
+    for (size_t i = 0; i < viagens.size(); i++)
+    {
+        if (viagens[i]->getId() == opcao)
+        {
+            viagens[i]->setStatusViagem(2);
+            break;
+        }
+        
+    }
+    
+    
 }
 
 std::string ControladorDeTransito::timePointToString(const std::chrono::system_clock::time_point& timePoint) {
