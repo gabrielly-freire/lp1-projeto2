@@ -17,5 +17,6 @@ class TransporteDAO{
         Transporte* findById(int id);
         Transporte* findByNome(std::string nome);
         std::vector<Transporte*> findAll();
+        void setIdCidadeAtual(int id_transporte, int id_nova_cidade);
 };
 #endif

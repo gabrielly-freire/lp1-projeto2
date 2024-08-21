@@ -12,7 +12,7 @@ PassageiroDAO::~PassageiroDAO(){
 void PassageiroDAO::createPassageiro(Passageiro passageiro){
 
     char query[200];
-    sprintf(query, "INSERT INTO passageiros (cpf, nome, id_cidade_atual) VALUES ('%s', '%s', '%d');", passageiro.getCpf().c_str(), passageiro.getNome().c_str(), passageiro.getLocalAtual()->getId());
+    sprintf(query, "INSERT INTO passageiros (cpf, nome, id_cidade_atual) VALUES ('%s', '%s', %d);", passageiro.getCpf().c_str(), passageiro.getNome().c_str(), passageiro.getLocalAtual()->getId());
     
     if (mysql_query(connection.getConnection(), query))
     {
@@ -84,4 +84,15 @@ Passageiro* PassageiroDAO::findByCpf(string cpf){
     }
 
     return nullptr;
+}
+
+void PassageiroDAO::setIdCidadeAtual(string cpf, int id_nova_cidade){
+    char query[200];
+
+    sprintf(query, "UPDATE passageiros SET id_cidade_atual = %d WHERE cpf = '%s';", id_nova_cidade, cpf.c_str());
+
+    if (mysql_query(connection.getConnection(), query)){
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return;
+    }
 }

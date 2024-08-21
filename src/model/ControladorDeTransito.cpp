@@ -37,20 +37,24 @@ void ControladorDeTransito::cadastrarTrajeto() {
 
     cout << "Digite o nome da cidade de origem: ";
     std::getline(std::cin, nomeOrigem);
-    cout << "Digite o nome da cidade de destino: ";
-    std::getline(std::cin, nomeDestino);
-    cout << "Digite o tipo de Trajeto (1 = terrestre, 2 = aquático, 3 = aéreo): ";
-    cin >> tipo;
-    cout << "Digite a distância do Trajeto: ";
-    cin >> distancia;
 
     nomeOrigem = para_minusculo(nomeOrigem);
+
+    cout << "Digite o nome da cidade de destino: ";
+    std::getline(std::cin, nomeDestino);
+
     nomeDestino = para_minusculo(nomeDestino);
+
+    cout << "Digite o tipo de Trajeto (1 = terrestre, 2 = aquático, 3 = aéreo): ";
+    cin >> tipo;
 
     if (!(tipo == 1 || tipo == 2 || tipo == 3)) {
         std::cout << "Tipo de trajeto inválido" << std::endl;
         return;
     }
+
+    cout << "Digite a distância do Trajeto: ";
+    cin >> distancia;
 
     if (distancia <= 0) {
         std::cout << "Distância de viagem inválida!" << std::endl;
@@ -97,30 +101,54 @@ void ControladorDeTransito::cadastrarTransporte(){
 
     cout << "Digite o nome do transporte: ";
     std::getline(std::cin, nomeTransporte);
+
+
     cout << "Digite número para o tipo do transporte(1 = terrestre, 2 = aquático, 3 = aéreo): ";
     cin >> tipoTransporte;
+
+    if(!(tipoTransporte == 1 || tipoTransporte == 2 || tipoTransporte == 3)){
+        std::cout << "Tipo de trajeto inválido" << std::endl;
+        return;
+    }
+
     cout << "Digite a capacidade do transporte: ";
     cin >> capacidadeTransporte;
+
+    if (capacidadeTransporte <= 0) {
+        std::cout << "Capacidade de passageiros inválida." << std::endl;
+        return;
+    }
+    
     cout << "Digite a velocidade do transporte(km/h): ";
     cin >> velocidadeTransporte;
+
+    if (velocidadeTransporte <= 0) {
+        std::cout << "Velocidade inválida para o transporte." << std::endl;
+        return;
+    }
+
     cout << "Digite a distância percorrida até o descanso(km): ";
     cin >> distanciaDescanso;
+
+    if (distanciaDescanso <= 0) {
+        std::cout << "Distância percorrida até o descanso inválida." << std::endl;
+        return;
+    }
+
     cout << "Digite o tempo de descanso(em horas): ";
     cin >> tempoDescanso;
+    
+    if (tempoDescanso < 0) {
+        std::cout << "Tempo de descanso inválido." << std::endl;
+        return;
+    }
+    
     std::cin.ignore();
     cout << "Digite o local atual do transporte: ";
     std::getline(std::cin, localAtualTransporte);
 
     localAtualTransporte = para_minusculo(localAtualTransporte);
 
-    if(!(tipoTransporte == 1 || tipoTransporte == 2 || tipoTransporte == 3)){
-        std::cout << "Tipo de trajeto inválido" << std::endl;
-        return;
-    }
-    if (capacidadeTransporte <= 0 || velocidadeTransporte <= 0 || distanciaDescanso <= 0 || tempoDescanso < 0 || tempoDescansoAtual < 0) {
-        std::cout << "Parâmetros inválidos para transporte." << std::endl;
-        return;
-    }
     Cidade* local = cidadeDAO.findByNome(localAtualTransporte);
     if (!local) {
         Cidade novo_local(localAtualTransporte);
@@ -151,8 +179,17 @@ void ControladorDeTransito::cadastrarPassageiro() {
 
     cout << "Digite o nome do passageiro: ";
     getline(cin, nome);
+
+
     cout << "Digite o nome do cpf do passageiro: ";
     getline(cin, cpf);
+
+    Passageiro *passageiro_cpf = passageiroDAO.findByCpf(cpf);
+
+    if (passageiro_cpf != nullptr){
+        cout << "Cpf já cadastrado." << endl;
+    }
+
     cout << "Digite o nome da cidade atual do passageiro: ";
     getline(cin, local);
     local = para_minusculo(local);
