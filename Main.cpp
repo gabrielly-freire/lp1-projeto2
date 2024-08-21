@@ -52,7 +52,7 @@ int main() {
                             break;
                         case 3:
                             cin.ignore();
-
+                            controlador.iniciarViagem();
                             break;
                         case 4:
                             controlador.avancarHoras(hora);
