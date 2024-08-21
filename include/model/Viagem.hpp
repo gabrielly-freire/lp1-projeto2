@@ -16,7 +16,7 @@ class Viagem {
         Cidade* origem;
         Cidade* destino;
         Viagem *proxima;
-        int horasEmTransito;
+        float horasEmTransito;
         int statusViagem;
     public:
         Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, int statusViagem);
