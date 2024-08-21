@@ -17,6 +17,7 @@ class ViagemDAO{
         std::vector<Trajeto*> getTrajetos(int id_viagem);
         std::vector<Viagem*> findAll();
         Viagem* findUltimaViagem();
+        void update(Viagem& viagem);
 };
 
 #endif

@@ -18,6 +18,7 @@ class Viagem {
         Viagem *proxima;
         int horasEmTransito;
         int statusViagem;
+        int tempoTotalViagem;
     public:
         Viagem(Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, int statusViagem);
         Viagem(int id, Transporte* transporte, std::vector<Passageiro*> passageiros, std::vector<Trajeto*> trajetos, Cidade* origem, Cidade* destino, int horasEmTransito, int statusViagem);
@@ -31,6 +32,9 @@ class Viagem {
         Transporte* getTransporte();
         int getHoraEmTransito();
         int getStatusViagem();
+        void setStatusViagem(int status);
+        int getTempoTotalViagem();
+        void setTempoTotalViagem(int tempoViagem);
 
         void iniciarViagem();
         void avancarHoras(int horas);

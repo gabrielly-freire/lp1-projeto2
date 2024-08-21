@@ -260,7 +260,7 @@ Viagem* ViagemDAO::findUltimaViagem() {
         Cidade* cidade_destino = cidadeDao.findById(id_cidade_destino);
         std::vector<Passageiro*> passageiros = getPassageiros(id);
         std::vector<Trajeto*> trajetos = getTrajetos(id);
-        //Incluir trajetos também?
+ 
         Viagem* viagem = new Viagem(id, transporte, passageiros, trajetos, cidade_origem, cidade_destino, horas_em_transito, status);
         
         mysql_free_result(result);
@@ -271,3 +271,33 @@ Viagem* ViagemDAO::findUltimaViagem() {
     mysql_free_result(result);
     return nullptr;
 }
+void ViagemDAO::update(Viagem& viagem) {
+    std::cerr << "Status da viagem: " << viagem.getStatusViagem() << std::endl;
+
+
+    if (viagem.getStatusViagem() == 2) {
+
+        std::string query = "UPDATE viagens SET horas_em_transito = horas_em_transito + 1"
+                            " WHERE id = " + std::to_string(viagem.getId()) +
+                            " AND status_viagem = 2";
+
+        if (mysql_query(connection.getConnection(), query.c_str())) {
+            std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        }
+
+        if (viagem.getHoraEmTransito() >= viagem.getTempoTotalViagem()) {
+
+            query = "UPDATE viagens SET status_viagem = 3 WHERE id = " + std::to_string(viagem.getId());
+
+            if (mysql_query(connection.getConnection(), query.c_str())) {
+                std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+            } else {
+                std::cerr << "A viagem " << viagem.getId() << " chegou a seu destino." << std::endl;
+            }
+        }
+    } else {
+        std::cerr << "A viagem não está em andamento. Nenhuma atualização foi realizada." << std::endl;
+    }
+}
+
+
