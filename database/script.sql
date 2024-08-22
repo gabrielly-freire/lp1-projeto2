@@ -7,10 +7,11 @@ USE controlador_viagens_db;
 CREATE TABLE IF NOT EXISTS cidades(
     id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(255),
+    visitas INT,
     PRIMARY KEY (id)
 );
 
-INSERT INTO cidades(id, nome) VALUES (1, "emtrânsito");
+INSERT INTO cidades(id, nome, visitas) VALUES (1, "emtrânsito", 0);
 
 CREATE TABLE IF NOT EXISTS passageiros(
     cpf VARCHAR(15) NOT NULL,
@@ -60,7 +61,7 @@ CREATE TABLE IF NOT EXISTS viagens(
     id_cidade_origem INT,
     id_cidade_destino INT,
     horas_em_transito INT,
-    em_andamento BOOLEAN,
+    status_viagem INT,
     PRIMARY KEY (id),
     FOREIGN KEY(id_transporte) REFERENCES transportes(id),
     FOREIGN KEY(id_cidade_origem) REFERENCES cidades(id),
