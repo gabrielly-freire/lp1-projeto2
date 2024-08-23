@@ -393,7 +393,7 @@ std::vector<Viagem*> ControladorDeTransito::avancarHoras(std::chrono::system_clo
 
                 tempoTotalViagem += tempoTotalTrajeto;
 
-                std::cout << "trajeto "<<trajeto->getId();
+                std::cout << "trajeto: "<<trajeto->getOrigem()->getNome() << " -> " << trajeto->getDestino()->getNome();
                 if (&trajeto != &trajetos.back()) {
                     std::cout << " | ";
                 }
@@ -408,6 +408,10 @@ std::vector<Viagem*> ControladorDeTransito::avancarHoras(std::chrono::system_clo
             if (viagem->getHoraEmTransito() >= tempoTotalViagem) {
                 
                 std::cout << "A viagem " << viagem->getId() << " chegou a seu destino." << std::endl;
+                transporteDAO.setIdCidadeAtual(viagem->getTransporte()->getId(), viagem->getDestino()->getId());
+                for(auto& passageiro : viagem->getPassageiros()){
+                    passageiroDAO.setIdCidadeAtual(passageiro->getCpf(), viagem->getDestino()->getId());
+                }
                 std::cout << "Pressione Enter para continuar...";
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer
                 std::cin.get(); // Aguarda o usuário pressionar Enter
@@ -421,6 +425,7 @@ std::vector<Viagem*> ControladorDeTransito::avancarHoras(std::chrono::system_clo
             }
 
     viagemDAO.update(*viagem);
+    
         } 
     }
 

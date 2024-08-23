@@ -288,6 +288,7 @@ void ViagemDAO::update(Viagem& viagem) {
         if (viagem.getHoraEmTransito() >= viagem.getTempoTotalViagem()) {
 
             query = "UPDATE viagens SET status_viagem = 3 WHERE id = " + std::to_string(viagem.getId());
+            
 
             if (mysql_query(connection.getConnection(), query.c_str())) {
                 std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
