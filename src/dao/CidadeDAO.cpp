@@ -96,3 +96,14 @@ Cidade* CidadeDAO::findByNome(std::string nome) {
     mysql_free_result(result);
     return nullptr;  
 }
+
+void CidadeDAO::setVisitas(int id_cidade, int quantidade_de_visitas){
+    char query[200];
+
+    sprintf(query, "UPDATE cidades SET visitas = %d WHERE id = %d;", quantidade_de_visitas, id_cidade);
+
+    if (mysql_query(connection.getConnection(), query)) {
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return;
+    }
+}
