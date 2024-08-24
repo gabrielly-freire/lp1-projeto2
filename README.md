@@ -2,16 +2,18 @@
 
 O sistema controlador de viagens consiste em um projeto da Linguagens de Programação 1 (LP1), disciplina do currículo base do BTI, que tem o objetivo de aplicar os conceitos de programação orientada a objetos em C++ para desenvolver um sistema completo de controle de viagens, consolidando o aprendizado adquirido ao longo do curso.
 
-## Funcionalidades
+## Requisitos
+
+### Requisitos Funcionais
 
 - [x] 1. Cadastro de Cidades
 - [x] 2. Cadastro de Trajetos
 - [x] 3. Cadastro de Transportes
 - [x] 4. Cadastro de Passageiros
-- [ ] 5. Gestão de Viagens
-  - [ ] Iniciar viagem entre cidades
-  - [ ] Avançar horas e atualizar estado do sistema
-  - [ ] Calcular o melhor trajeto entre cidades
+- [x] 5. Gestão de Viagens
+  - [x] Iniciar viagem entre cidades
+  - [x] Avançar horas e atualizar estado do sistema
+  - [x] Calcular o melhor trajeto entre cidades
 - [x] 6. Consultas e Relatórios
   - [x] Relatar onde estão cada pessoa (cidade ou em trânsito, informando origem-destino-transporte)
   - [x] Relatar onde está cada transporte (cidade ou em trânsito)
@@ -24,6 +26,48 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
 - **Persistência de Dados:** Os dados devem ser salvos em arquivos de texto ou banco de dados, permitindo que o sistema recupere as informações ao ser reiniciado.
 - **Modularização:** O código deve ser organizado em diferentes arquivos para cada classe/módulo.
 - **Documentação:** Comentar o código de maneira adequada e fornecer um manual de uso explicando como compilar e executar o sistema.
+
+## Organização do Projeto
+
+```plantex
+├── database
+├── include
+│   ├── connection
+│   │   └── Connection.hpp
+│   ├── dao
+│   │
+│   └── model
+│       ├── dto
+├── Main.cpp
+├── Makefile
+├── README.md
+├── src
+│   ├── connection
+│   ├── dao
+│   └── model
+│       ├── dto
+└── util
+```
+
+### Explicando a organização
+
+- `/database` - Contém o script do banco de dados.
+- `/include` - Armazena os cabeçalhos (headers) de todos os arquivos, organizados por categorias para facilitar a manutenção e a leitura do código.
+  - `/connection`: Contém o arquivo Connection.hpp, que declara a classe responsável pela conexão com o banco de dados.
+  - `/dao`: Contém os cabeçalhos das classes Data Access Object (DAO), que gerenciam a interação com o banco de dados.
+  - `/model`: Contém as definições das entidades do projeto.
+    - `dto`: Contém as classes Data Transfer Object (DTO), que são utilizadas para transferir dados do banco.
+- `/src` - Implementação das classes definidas nos cabeçalhos do diretório include, também organizadas por categorias.
+  - `/connection`: Implementação da classe responsável pela conexão com o banco de dados.
+  - `/dao`: Implementação das classes que realizam operações no banco de dados, como criação, leitura, atualização e exclusão (CRUD).
+  - `/model`: Implementação das entidades do projeto.
+    - `/dto`: Implementação das classes DTO.
+- `/util`: Contém utilitários, aqui temos os métodos dos menus.
+- **Arquivos Raiz**
+  - `Main.cpp`: Responsável pela execução da aplicação.
+  - `Makefile`: Arquivo utilizado para automatizar a compilação do projeto,
+  - `README.md`: Documento que fornece informações sobre o projeto.
+  - `.gitignore`: Arquivo que especifica quais arquivos ou diretórios devem ser ignorados pelo sistema de controle de versão Git (Foi muito importante durante o desenvolvimento).
 
 ## Instruções de como executar o projeto
 
@@ -81,7 +125,11 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
   6.3. Relatar todas as viagens em andamento
   6.4. Relatar as cidades mais visitadas -->
 
-## Autores
+## Vídeo demonstrativo
+
+[Link do vídeo]()
+
+## Componentes
 
 - [Fernando Silva dos Santos](https://github.com/nandosannn)
 - [Francisca Gabrielly Lopes Freire](https://github.com/gabrielly-freire)
