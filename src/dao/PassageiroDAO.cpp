@@ -85,7 +85,6 @@ Passageiro* PassageiroDAO::findByCpf(string cpf){
 
     return nullptr;
 }
-
 void PassageiroDAO::setIdCidadeAtual(string cpf, int id_nova_cidade){
     char query[200];
 

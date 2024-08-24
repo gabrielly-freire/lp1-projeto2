@@ -57,6 +57,7 @@ int Viagem::getStatusViagem(){
     return this->statusViagem;
 }
 
+
 void Viagem::setStatusViagem(int status){
     this->statusViagem = status;
 }
@@ -65,11 +66,19 @@ void iniciarViagem(){
     
 }
 
-void avancarHoras(int horas){
-    
+void Viagem::avancarHoras(int horas){
+    horasEmTransito += horas;
 }
 
 void relatarEstado(){
     
 }
-
+void Viagem::setStatusViagem(int status){
+    this->statusViagem = status;
+}
+int Viagem::getTempoTotalViagem(){
+    return this->tempoTotalViagem;
+}
+void Viagem::setTempoTotalViagem(int valor){
+    this->tempoTotalViagem = valor;
+}

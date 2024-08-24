@@ -239,15 +239,86 @@ std::string ControladorDeTransito::timePointToString(const std::chrono::system_c
     return oss.str();
 }
 
+std::vector<Viagem*> ControladorDeTransito::avancarHoras(std::chrono::system_clock::time_point& timePoint) {
+    system("clear");
+    const std::chrono::hours one_hour(1);
+    timePoint += one_hour;
 
+    std::vector<Viagem*> viagensAtualizadas;
 
-void ControladorDeTransito::avancarHoras(std::chrono::system_clock::time_point& timePoint) {
-    // Define a duração de uma hora
-    std::chrono::hours one_hour(1);
+    for (auto& viagem : viagens) {
+        if (viagem->getStatusViagem() == 2) {
+            viagensAtualizadas.push_back(viagem);
 
-    // Atualiza o timePoint com a nova duração
-    timePoint = timePoint + one_hour;
-    
+            double velocidade = viagem->getTransporte()->getVelocidade();
+            double distanciaEntreDescansos = viagem->getTransporte()->getDistanciaEntreDescansos();
+            double tempoDescanso = viagem->getTransporte()->getTempoDescanso();
+
+            std::vector<Trajeto*> trajetos = viagemDAO.getTrajetos(viagem->getId());
+            double tempoTotalViagem = 0.0;
+            std::cout << "Trajetos relacionados à viagem " << viagem->getId() << ": ";
+            for (auto& trajeto : trajetos) {
+                double distanciaTrajeto = trajeto->getDistancia();
+                int numeroParadas = static_cast<int>(distanciaTrajeto / distanciaEntreDescansos);
+                double tempoViagemSemDescanso = distanciaTrajeto / velocidade;
+                double tempoDescansoTotal = numeroParadas * tempoDescanso;
+                double tempoTotalTrajeto = tempoViagemSemDescanso + tempoDescansoTotal;
+
+                tempoTotalViagem += tempoTotalTrajeto;
+
+                std::cout << "trajeto: " << trajeto->getOrigem()->getNome() << " -> " << trajeto->getDestino()->getNome();
+                if (&trajeto != &trajetos.back()) {
+                    std::cout << " | ";
+                }
+            }
+
+            std::cout << std::endl;
+            std::cout << "Tempo atual de viagem: " << viagem->getHoraEmTransito() << " horas" << std::endl;
+            std::cout << "Tempo total estimado de viagem: " << static_cast<int>(tempoTotalViagem) << " horas" << std::endl;
+
+            viagem->setTempoTotalViagem(static_cast<int>(tempoTotalViagem));
+
+            // Verifica se a viagem atingiu o tempo total de viagem
+            if (viagem->getHoraEmTransito() >= tempoTotalViagem) {
+                std::cout << "A viagem " << viagem->getId() << " chegou a seu destino." << std::endl;
+
+                // Incrementa a contagem de visitas para cada cidade de destino nos trajetos
+                for (auto& trajeto : trajetos) {
+                    int cidadeDestinoId = trajeto->getDestino()->getId();
+
+                    // Obter o número atual de visitas à cidade de destino
+                    int visitasAtuais = trajeto->getDestino()->getVisitas();
+
+                    // Incrementar o número de visitas
+                    cidadeDAO.setVisitas(cidadeDestinoId, visitasAtuais + 1);
+                }
+
+                transporteDAO.setIdCidadeAtual(viagem->getTransporte()->getId(), viagem->getDestino()->getId());
+                for (auto& passageiro : viagem->getPassageiros()) {
+                    passageiroDAO.setIdCidadeAtual(passageiro->getCpf(), viagem->getDestino()->getId());
+                }
+
+                std::cout << "Pressione Enter para continuar...";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer
+                std::cin.get(); // Aguarda o usuário pressionar Enter
+
+                // Alterar o status da viagem para indicar que foi concluída
+                viagem->setStatusViagem(3); // 3 representa "concluída" (ou use o valor adequado)
+            } else {
+                // Avançar o tempo da viagem em uma hora se ela não foi concluída
+                viagem->avancarHoras(1);
+                std::cout << "Pressione Enter para continuar...";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer
+                std::cin.get(); // Aguarda o usuário pressionar Enter
+                system("clear");
+            }
+
+            // Atualiza a viagem no banco de dados
+            viagemDAO.update(*viagem);
+        }
+    }
+
+    return viagensAtualizadas;
 }
 
 void ControladorDeTransito::relatarEstado() {

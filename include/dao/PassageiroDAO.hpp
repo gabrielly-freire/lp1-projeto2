@@ -19,6 +19,7 @@ public:
     void createPassageiro(Passageiro passageiro);
     vector<Passageiro*> findAll();
     Passageiro* findByCpf(string cpf);
+    Passageiro* findByNome(string nome);
     void setIdCidadeAtual(string cpf, int id_nova_cidade);
 };
 
