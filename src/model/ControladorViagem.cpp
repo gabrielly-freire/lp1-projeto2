@@ -115,9 +115,6 @@ void ControladorDeTransito::cadastrarViagem()
     }
 }
 
-
-
-
 void ControladorDeTransito::verificarRotas(){
     string input;
     int opcao;
@@ -125,7 +122,6 @@ void ControladorDeTransito::verificarRotas(){
 
     do
     {
-        //oi
         cout << "VIAGENS CADASTRADAS" << endl;
         for (size_t i = 0; i < viagens.size(); i++)
         {
@@ -178,12 +174,10 @@ void ControladorDeTransito::verificarRotas(){
         
     } while (opcao == 1);
 }
+
 std::chrono::system_clock::time_point ControladorDeTransito::getCurrentTimePoint() {
     return std::chrono::system_clock::now();
 }
-
-
-
 
 void ControladorDeTransito::iniciarViagem(){
     string input;
@@ -210,20 +204,16 @@ void ControladorDeTransito::iniciarViagem(){
 
     Viagem* viagem = viagemDAO.findById(opcao);
     
-
     if (viagem == nullptr){
         cout << "Viagem não encontrada!" << endl;
         return;
     }
-
 
     if (viagem->getStatusViagem() == 2)
     {
         cout << "Viagem já iniciada!" << endl;
         return;
     }
-
-
 
     Transporte* transporte = transporteDAO.findById(viagem->getTransporte()->getId());
 
@@ -240,7 +230,6 @@ void ControladorDeTransito::iniciarViagem(){
         cout << "Não é possível iniciar viagem!" << endl;
         return;
     }
-
 
     for (size_t i = 0; i < viagem->getPassageiros().size(); i++){
         
@@ -262,7 +251,6 @@ void ControladorDeTransito::iniciarViagem(){
         delete passageiro;
     }
 
-    
     viagemDAO.setStatusViagem(opcao, 2);
     transporteDAO.setIdCidadeAtual(viagem->getTransporte()->getId(), 1);
 
@@ -271,11 +259,8 @@ void ControladorDeTransito::iniciarViagem(){
         passageiroDAO.setIdCidadeAtual(viagem->getPassageiros()[i]->getCpf(), 1);
     }
 
-   
-    
     cout << "Viagem: " << viagem->getId() << " iniciada com sucesso!" << endl;
     atualizarListas();
     delete viagem;
     delete transporte;
 }
-

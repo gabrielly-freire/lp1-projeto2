@@ -57,7 +57,6 @@ int Viagem::getStatusViagem(){
     return this->statusViagem;
 }
 
-
 void Viagem::setStatusViagem(int status){
     this->statusViagem = status;
 }

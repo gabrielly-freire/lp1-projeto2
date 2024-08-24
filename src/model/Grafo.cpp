@@ -1,8 +1,6 @@
 #include "../../include/model/Grafo.hpp"
 
-Grafo::Grafo(){
-
-}
+Grafo::Grafo(){}
 
 Grafo::Grafo(int V){
     this->V = V;
@@ -46,15 +44,6 @@ vector<Trajeto*> Grafo::melhorRota(vector<tuple<vector<tuple<int, int, int>>, in
 		
 	}
 
-    //IMprimir a menor distancia
-    //cout << "Menor distancia: " << menorDistancia << endl; 
-	//Imprimir as cidades que compõe a rota com menor distância
-    /*for (size_t i = 0; i < caminho.size(); i++)
-	{
-		cout << "Cidade #" << i+1 << " - código: "<< get<0>(caminho[i]) << endl;
-	}*/
-
-
 	for (size_t i = 0; i < caminho.size() - 1; i++)
 	{
 		for (size_t j = 0; j < trajetos.size(); j++)
@@ -68,15 +57,6 @@ vector<Trajeto*> Grafo::melhorRota(vector<tuple<vector<tuple<int, int, int>>, in
 		
 	}
 
-
-
-    //Imprimir os trajetos que compõe a melhor rota
-    /*for (size_t i = 0; i < melhorTrajeto.size(); i++)
-	{
-		cout << "Trajeto #" << i+1 << " - Cidade de Origem: " << melhorTrajeto[i]->getOrigem()->getId() << " - Cidade Destino: " << melhorTrajeto[i]->getDestino()->getId() << endl;
-	}*/
-	
-	
 	return melhorTrajeto;
 
 }
@@ -101,12 +81,10 @@ vector<Trajeto*> Grafo::dfs(int v, int w, int tipoTransporte, std::vector<Trajet
 	
     while (true)
 	{
-		//cout << "Valor de v no inicio de While: " << v << endl;
 		
 		//Visitando os vizinhos não visitados
 		if (!visitando[v])
 		{
-			//cout << "Visitando vertice " << v << ", distancia acumulada: " << distanciaAcumulada << ", tipo do trajeto: " << tipoTransporte << endl;
 			//marcar como visitado
 			visitando[v] = true;	
 			pilha.push_back(make_tuple(v, distanciaAcumulada, tipoTransporte)); // insere "v" na pilha
@@ -130,7 +108,6 @@ vector<Trajeto*> Grafo::dfs(int v, int w, int tipoTransporte, std::vector<Trajet
 						visitando[w] = true;
 					}
 					
-					//cout << "Um dos vizinhos é o destino colocar no vector" << endl;
 					pilha.push_back(make_tuple(get<0>(*vz), get<1>(*vz) + distanciaAcumulada, get<2>(*vz)));
 					conexoes.push_back(make_tuple(pilha,get<1>(*vz) + distanciaAcumulada)); // Armazena a pilha e a distância acumulada
 					pilha.pop_back();
@@ -142,7 +119,6 @@ vector<Trajeto*> Grafo::dfs(int v, int w, int tipoTransporte, std::vector<Trajet
 		// Resetar regrediu
 		if (regrediu)
 		{
-			//cout << "Passando na cidade " << v << " de novo." << endl;
 			regrediu = false;
 		}
 
@@ -152,7 +128,6 @@ vector<Trajeto*> Grafo::dfs(int v, int w, int tipoTransporte, std::vector<Trajet
 		{
 
 			// Verificar se o próximo vizinho não foi visitado
-			// cout << "Valor de *ït: " << get<0>(*it) << " - Valor de visitando[get<0>(*it)]: " <<  visitando[get<0>(*it)] << " - Valor visitando[v]: " << visitando[v] << endl;
 			if (!visitando[get<0>(*it)] && get<2>(*it) == tipoTransporte)
 			{
 				achou = true;
@@ -183,18 +158,6 @@ vector<Trajeto*> Grafo::dfs(int v, int w, int tipoTransporte, std::vector<Trajet
 			
 			if (pilha.empty())
 			{
-				
-				/*for (size_t i = 0; i < conexoes.size(); i++)
-				{
-					cout << "Conexão #" << i + 1 << endl;
-					vector<tuple<int, int, int>> caminho = get<0>(conexoes[i]);
-					for (size_t j = 0; j < caminho.size(); j++)
-					{
-						cout << "Cidade: " << get<0>(caminho[j]) << " - Distancia: " << get<1>(caminho[j]) << " - Tipo Transporte: " << get<2>(caminho[j]) << endl;
-					}
-					cout << "Distância Acumulada: " << get<1>(conexoes[i]) << endl;
-				}*/
-
 				if (conexoes.empty())
 				{
 					return melhorTrajeto;

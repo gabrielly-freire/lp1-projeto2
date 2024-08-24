@@ -2,12 +2,9 @@
 #include "../../include/model/Passageiro.hpp"
 #include <iostream>
 
-//Contrutor
 PassageiroDAO::PassageiroDAO(Connection& conn): connection(conn){}
 
-//Destrutor
-PassageiroDAO::~PassageiroDAO(){
-}
+PassageiroDAO::~PassageiroDAO(){}
 
 void PassageiroDAO::createPassageiro(Passageiro passageiro){
 
@@ -85,6 +82,7 @@ Passageiro* PassageiroDAO::findByCpf(string cpf){
 
     return nullptr;
 }
+
 void PassageiroDAO::setIdCidadeAtual(string cpf, int id_nova_cidade){
     char query[200];
 
