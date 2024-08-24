@@ -248,7 +248,7 @@ Viagem* ViagemDAO::findUltimaViagem() {
         int id_cidade_origem = std::stoi(row[2]);
         int id_cidade_destino = std::stoi(row[3]);
         int horas_em_transito = std::stoi(row[4]);
-       int status = std::stoi(row[5]);
+        int status = std::stoi(row[5]);
         
         TransporteDAO transporteDao(connection);
         CidadeDAO cidadeDao(connection);
@@ -301,4 +301,24 @@ void ViagemDAO::update(Viagem& viagem) {
     }
 }
 
+void ViagemDAO::setHorasEmTransito(int id_viagem, int horas_em_transito){
+    char query[200];
 
+    sprintf(query, "UPDATE viagens SET horas_em_transito = %d WHERE id = %d;", horas_em_transito, id_viagem);
+
+    if (mysql_query(connection.getConnection(), query)){
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return;
+    }
+}
+
+void ViagemDAO::setStatusViagem(int id_viagem, int status_viagem){
+    char query[200];
+
+    sprintf(query, "UPDATE viagens SET status_viagem = %d WHERE id = %d;", status_viagem, id_viagem);
+
+    if (mysql_query(connection.getConnection(), query)){
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return;
+    }
+}

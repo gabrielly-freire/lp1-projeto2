@@ -58,6 +58,9 @@ int Viagem::getStatusViagem(){
 }
 
 
+void Viagem::setStatusViagem(int status){
+    this->statusViagem = status;
+}
 
 void iniciarViagem(){
     

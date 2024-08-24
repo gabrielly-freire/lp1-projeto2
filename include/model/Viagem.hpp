@@ -16,7 +16,7 @@ class Viagem {
         Cidade* origem;
         Cidade* destino;
         Viagem *proxima;
-        int horasEmTransito;
+        float horasEmTransito;
         int statusViagem;
         int tempoTotalViagem;
     public:
@@ -35,7 +35,6 @@ class Viagem {
         void setStatusViagem(int status);
         int getTempoTotalViagem();
         void setTempoTotalViagem(int tempoViagem);
-
         void iniciarViagem();
         void avancarHoras(int horas);
         void relatarEstado();

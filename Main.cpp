@@ -51,7 +51,8 @@ int main() {
                             controlador.verificarRotas();
                             break;
                         case 3:
-                            //Iniciar viagem
+                            cin.ignore();
+                            controlador.iniciarViagem();
                             break;
                         case 4:
                             controlador.avancarHoras(hora);

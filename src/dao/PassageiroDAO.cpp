@@ -12,7 +12,7 @@ PassageiroDAO::~PassageiroDAO(){
 void PassageiroDAO::createPassageiro(Passageiro passageiro){
 
     char query[200];
-    sprintf(query, "INSERT INTO passageiros (cpf, nome, id_cidade_atual) VALUES ('%s', '%s', '%d');", passageiro.getCpf().c_str(), passageiro.getNome().c_str(), passageiro.getLocalAtual()->getId());
+    sprintf(query, "INSERT INTO passageiros (cpf, nome, id_cidade_atual) VALUES ('%s', '%s', %d);", passageiro.getCpf().c_str(), passageiro.getNome().c_str(), passageiro.getLocalAtual()->getId());
     
     if (mysql_query(connection.getConnection(), query))
     {
