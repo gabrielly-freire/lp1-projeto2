@@ -57,9 +57,7 @@ std::vector<CidadeDTO*> ConsultasDAO::relatorioCidadesMaisVisitadas(){
     std::vector<CidadeDTO*> cidades;
     MYSQL_RES* result;
     MYSQL_ROW row;
-    std::string query = "SELECT c.nome, COUNT(vp.id_viagem) AS total_visitas FROM cidades c JOIN "
-        "viagens v ON c.id = v.id_cidade_destino JOIN passageiros_Viagem vp ON v.id = vp.id_viagem "
-        "GROUP BY c.id, c.nome ORDER BY total_visitas DESC;";
+    std::string query = "SELECT nome, visitas FROM Cidades ORDER BY visitas DESC";
 
     if(mysql_query(connection.getConnection(), query.c_str())){
         std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
