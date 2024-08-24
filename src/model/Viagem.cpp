@@ -73,9 +73,6 @@ void Viagem::avancarHoras(int horas){
 void relatarEstado(){
     
 }
-void Viagem::setStatusViagem(int status){
-    this->statusViagem = status;
-}
 int Viagem::getTempoTotalViagem(){
     return this->tempoTotalViagem;
 }
