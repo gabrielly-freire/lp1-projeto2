@@ -8,7 +8,7 @@ std::vector<PassageiroDTO*> ConsultasDAO::relatorioLocalidadePassagerios(){
     MYSQL_RES* result;
     MYSQL_ROW row;
     std::string query = "SELECT p.cpf, p.nome, CASE WHEN v.status_viagem = 2 THEN 'em trânsito' ELSE c.nome END "
-        "FROM passageiros p LEFT JOIN (SELECT vp.id_passageiro, v.status_viagem FROM passageiros_Viagem vp JOIN viagens v ON vp.id_viagem = v.id "
+        "FROM passageiros p LEFT JOIN (SELECT vp.id_passageiro, v.status_viagem FROM passageiros_viagem vp JOIN viagens v ON vp.id_viagem = v.id "
         "WHERE v.status_viagem = 2) v ON p.cpf = v.id_passageiro LEFT JOIN cidades c ON p.id_cidade_atual = c.id;";
 
     if(mysql_query(connection.getConnection(), query.c_str())){

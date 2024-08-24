@@ -5,8 +5,8 @@
 #include <vector>
 #include <iostream>
 
-
 TransporteDAO::TransporteDAO(Connection& conn): connection(conn) {}
+
 void TransporteDAO::create(Transporte transporte) {
     CidadeDAO cidadeDAO(connection);
     char query[1024];
@@ -109,7 +109,8 @@ Transporte* TransporteDAO::findByNome(std::string nome) {
     mysql_free_result(result);
     return nullptr;
 }
- std::vector<Transporte*> TransporteDAO::findAll(){
+
+std::vector<Transporte*> TransporteDAO::findAll(){
     std::vector<Transporte*> transportes;
     MYSQL_RES* result;
     MYSQL_ROW row;
