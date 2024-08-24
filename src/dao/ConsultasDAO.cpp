@@ -64,21 +64,25 @@ std::vector<CidadeDTO*> ConsultasDAO::relatorioCidadesMaisVisitadas(){
         return cidades;
     }
 
-    int posicao = 0;
+    int posicao = 1;
 
     result = mysql_store_result(connection.getConnection());
     while ((row = mysql_fetch_row(result))) {
         std::string nomeCidade = row[0];
         int visitas = std::stoi(row[1]);
-        
-        CidadeDTO *cidade = new CidadeDTO(posicao, nomeCidade, visitas);
-        cidades.push_back(cidade);
-        posicao++;
+
+        if(nomeCidade == "emtrânsito"){
+            continue;
+        }else{
+            CidadeDTO *cidade = new CidadeDTO(posicao, nomeCidade, visitas);
+            cidades.push_back(cidade);
+            posicao++;
+        }
+
     }
+
     mysql_free_result(result);
-
-    cidades.erase(cidades.begin());
-
+    
     return cidades;
 }
 

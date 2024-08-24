@@ -13,6 +13,11 @@ void ControladorDeTransito::gerarRelatorios(int tipo) {
                 PassageiroDTO* passageiroDTO = passageirosDTO[i];
                 std::cout << passageiroDTO->toString();
             }
+
+            if(passageirosDTO.size() == 0){
+                std::cout << "Não temos passageiros cadastrados" << std::endl;
+            }
+
             break;
         }
         case 2: {
@@ -21,6 +26,11 @@ void ControladorDeTransito::gerarRelatorios(int tipo) {
                 TransporteDTO* transporteDTO = transportesDTO[i];
                 std::cout << transporteDTO->toString();
             }
+
+            if(transportesDTO.size() == 0){
+                std::cout << "Não temos transportes cadastrados" << std::endl;
+            }
+
             break;
         }
         case 3: {
@@ -29,6 +39,11 @@ void ControladorDeTransito::gerarRelatorios(int tipo) {
                 ViagemDTO* viagemDTO = viagensDTO[i];
                 std::cout << viagemDTO->toString();
             }
+
+            if(viagensDTO.size() == 0){
+                std::cout << "Não temos viagens em andamento" << std::endl;
+            }
+
             break;
         }
         case 4: {
@@ -37,6 +52,11 @@ void ControladorDeTransito::gerarRelatorios(int tipo) {
                 CidadeDTO* cidadeDTO = cidadesDTO[i];
                 std::cout << cidadeDTO->toString();
             }
+
+            if(cidadesDTO.size() == 0){
+                std::cout << "Não temos cidades cadastradas" << std::endl;
+            }
+
             break;
         }
         case 0:
