@@ -9,13 +9,10 @@ int main() {
     int opcao;
     Connection conn;
     ControladorDeTransito controlador(conn);
-    //std::String Campo Cadastro Transporte:
-    //Inteiros Transporte Cadastro:
+   
     auto hora = controlador.getCurrentTimePoint();
     std::string horaOutput = controlador.timePointToString(hora);
-    do {
-        cout << "Hora e data atual: " << horaOutput << endl;
-        
+    do {        
         opcao = menu();
         
         switch (opcao) {
@@ -39,7 +36,6 @@ int main() {
             case 5:
                 int subOpcao5;
                 do {
-                cout << "Hora e data atual: " << horaOutput << endl;
                     subOpcao5 = submenu5();
                     switch (subOpcao5) {
                         case 1:
@@ -51,7 +47,8 @@ int main() {
                             controlador.verificarRotas();
                             break;
                         case 3:
-                            //Iniciar viagem
+                            cin.ignore();
+                            controlador.iniciarViagem();
                             break;
                         case 4:
                             controlador.avancarHoras(hora);

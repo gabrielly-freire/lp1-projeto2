@@ -5,8 +5,8 @@
 #include <vector>
 #include <iostream>
 
-
 TransporteDAO::TransporteDAO(Connection& conn): connection(conn) {}
+
 void TransporteDAO::create(Transporte transporte) {
     CidadeDAO cidadeDAO(connection);
     char query[1024];
@@ -109,7 +109,8 @@ Transporte* TransporteDAO::findByNome(std::string nome) {
     mysql_free_result(result);
     return nullptr;
 }
- std::vector<Transporte*> TransporteDAO::findAll(){
+
+std::vector<Transporte*> TransporteDAO::findAll(){
     std::vector<Transporte*> transportes;
     MYSQL_RES* result;
     MYSQL_ROW row;
@@ -140,4 +141,15 @@ Transporte* TransporteDAO::findByNome(std::string nome) {
     mysql_free_result(result);
 
     return transportes;
+}
+
+void TransporteDAO::setIdCidadeAtual(int id_transporte, int id_nova_cidade){
+    char query[200];
+
+    sprintf(query, "UPDATE transportes SET id_cidade_atual = %d WHERE id = %d;", id_nova_cidade, id_transporte);
+
+    if (mysql_query(connection.getConnection(), query)){
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return;
+    }
 }

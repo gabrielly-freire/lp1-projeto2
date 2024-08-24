@@ -16,6 +16,7 @@ class CidadeDAO{
         std::vector<Cidade*> findAll();
         Cidade* findById(int id);
         Cidade* findByNome(std::string nome);
+        void setVisitas(int id_cidade, int quantidade_de_visitas);
 };
 
 #endif

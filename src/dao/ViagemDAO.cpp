@@ -8,9 +8,9 @@
 #include <vector>
 #include <iostream>
 
-
 //Inserir viagem no banco de dados sem o trajeto direto ou melhor trajeto.
 ViagemDAO::ViagemDAO(Connection& conn): connection(conn) {}
+
 void ViagemDAO::create(Viagem viagem){
     MYSQL *mysql = connection.getConnection();
     char query[200];
@@ -30,14 +30,14 @@ void ViagemDAO::create(Viagem viagem){
         return;
     }
 
-    //Adicionar passageiros à ultima viagem cadastrada no banco de dados na tabela "passageiros_Viagem"
+    //Adicionar passageiros à ultima viagem cadastrada no banco de dados na tabela "passageiros_viagem"
     ViagemDAO dao(connection);
     std::vector<Passageiro*> passageiros = viagem.getPassageiros();
     Viagem* nova_viagem = dao.findUltimaViagem();
     for (Passageiro* passageiro : passageiros) {
         char query_passageiro[100];
         sprintf(query_passageiro,
-                "INSERT INTO passageiros_Viagem (id_viagem, id_passageiro) VALUES (%d, '%s');",
+                "INSERT INTO passageiros_viagem (id_viagem, id_passageiro) VALUES (%d, '%s');",
                 nova_viagem->getId(),
                 passageiro->getCpf().c_str());
 
@@ -47,12 +47,12 @@ void ViagemDAO::create(Viagem viagem){
         }
     }
 
-    //Adicionar o trajeto de viagem ao banco de dados na tabela "trajetos_Viagem"
+    //Adicionar o trajeto de viagem ao banco de dados na tabela "trajetos_viagem"
     std::vector<Trajeto*> trajetos = viagem.getTrajetos();
     for (Trajeto* trajeto : trajetos) {
         char query_trajeto[100];
         sprintf(query_trajeto,
-                "INSERT INTO trajetos_Viagem (id_viagem, id_trajeto) VALUES (%d, %d);",
+                "INSERT INTO trajetos_viagem (id_viagem, id_trajeto) VALUES (%d, %d);",
                 nova_viagem->getId(),
                 trajeto->getId());
 
@@ -70,7 +70,7 @@ std::vector<Passageiro*> ViagemDAO::getPassageiros(int id_viagem) {
     char query[256];
 
     sprintf(query,
-        "SELECT id_passageiro FROM passageiros_Viagem WHERE id_viagem = %d;",
+        "SELECT id_passageiro FROM passageiros_viagem WHERE id_viagem = %d;",
         id_viagem);
 
 
@@ -108,7 +108,7 @@ std::vector<Trajeto*> ViagemDAO::getTrajetos(int id_viagem) {
     char query[256];
 
     sprintf(query,
-        "SELECT id_trajeto FROM trajetos_Viagem WHERE id_viagem = %d;",
+        "SELECT id_trajeto FROM trajetos_viagem WHERE id_viagem = %d;",
         id_viagem);
 
 
@@ -175,7 +175,7 @@ Viagem* ViagemDAO::findById(int id){
         Cidade* cidade_destino = daoo.findById(id_cidade_destino);
         std::vector<Passageiro*> passageiros = getPassageiros(id);
         std::vector<Trajeto*> trajetos = getTrajetos(id);
-        //Incluir trajetos também?
+        
         Viagem* viagem = new Viagem(id, transporte, passageiros, trajetos, cidade_origem, cidade_destino, horas_em_transito, status);
         mysql_free_result(result);
         return viagem;
@@ -214,7 +214,7 @@ std::vector<Viagem*> ViagemDAO::findAll(){
         Cidade* cidade_destino = daoo.findById(id_cidade_destino);
         std::vector<Passageiro*> passageiros = getPassageiros(id);
         std::vector<Trajeto*> trajetos= getTrajetos(id);
-        //Inlcuir trajetos também?
+        
         Viagem* viagem = new Viagem(id, transporte, passageiros, trajetos, cidade_origem, cidade_destino, horas_em_transito, status);
         viagens.push_back(viagem);
     }
@@ -248,7 +248,7 @@ Viagem* ViagemDAO::findUltimaViagem() {
         int id_cidade_origem = std::stoi(row[2]);
         int id_cidade_destino = std::stoi(row[3]);
         int horas_em_transito = std::stoi(row[4]);
-       int status = std::stoi(row[5]);
+        int status = std::stoi(row[5]);
         
         TransporteDAO transporteDao(connection);
         CidadeDAO cidadeDao(connection);
@@ -260,7 +260,7 @@ Viagem* ViagemDAO::findUltimaViagem() {
         Cidade* cidade_destino = cidadeDao.findById(id_cidade_destino);
         std::vector<Passageiro*> passageiros = getPassageiros(id);
         std::vector<Trajeto*> trajetos = getTrajetos(id);
-        //Incluir trajetos também?
+ 
         Viagem* viagem = new Viagem(id, transporte, passageiros, trajetos, cidade_origem, cidade_destino, horas_em_transito, status);
         
         mysql_free_result(result);
@@ -270,4 +270,55 @@ Viagem* ViagemDAO::findUltimaViagem() {
     
     mysql_free_result(result);
     return nullptr;
+}
+
+void ViagemDAO::update(Viagem& viagem) {
+    std::cerr << "Status da viagem: " << viagem.getStatusViagem() << std::endl;
+
+    if (viagem.getStatusViagem() == 2) {
+
+        std::string query = "UPDATE viagens SET horas_em_transito = horas_em_transito + 1"
+                            " WHERE id = " + std::to_string(viagem.getId()) +
+                            " AND status_viagem = 2";
+
+        if (mysql_query(connection.getConnection(), query.c_str())) {
+            std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        }
+
+        if (viagem.getHoraEmTransito() >= viagem.getTempoTotalViagem()) {
+
+            query = "UPDATE viagens SET status_viagem = 3 WHERE id = " + std::to_string(viagem.getId());
+            
+
+            if (mysql_query(connection.getConnection(), query.c_str())) {
+                std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+            } else {
+                std::cerr << "A viagem " << viagem.getId() << " chegou a seu destino." << std::endl;
+            }
+        }
+    } else {
+        std::cerr << "A viagem não está em andamento. Nenhuma atualização foi realizada." << std::endl;
+    }
+}
+
+void ViagemDAO::setHorasEmTransito(int id_viagem, int horas_em_transito){
+    char query[200];
+
+    sprintf(query, "UPDATE viagens SET horas_em_transito = %d WHERE id = %d;", horas_em_transito, id_viagem);
+
+    if (mysql_query(connection.getConnection(), query)){
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return;
+    }
+}
+
+void ViagemDAO::setStatusViagem(int id_viagem, int status_viagem){
+    char query[200];
+
+    sprintf(query, "UPDATE viagens SET status_viagem = %d WHERE id = %d;", status_viagem, id_viagem);
+
+    if (mysql_query(connection.getConnection(), query)){
+        std::cerr << "Erro ao executar a query: " << mysql_error(connection.getConnection()) << std::endl;
+        return;
+    }
 }

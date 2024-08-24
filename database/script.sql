@@ -68,18 +68,18 @@ CREATE TABLE IF NOT EXISTS viagens(
     FOREIGN KEY(id_cidade_destino) REFERENCES cidades(id)
 );
 
-CREATE TABLE passageiros_Viagem (
-  id_viagem INT,
-  id_passageiro VARCHAR(15),
-  PRIMARY KEY(id_viagem, id_passageiro),
-  FOREIGN KEY(id_viagem) REFERENCES viagens(id),
-  FOREIGN KEY(id_passageiro) REFERENCES passageiros(cpf)
+CREATE TABLE IF NOT EXISTS passageiros_viagem (
+    id_viagem INT,
+    id_passageiro VARCHAR(15),
+    PRIMARY KEY(id_viagem, id_passageiro),
+    FOREIGN KEY(id_viagem) REFERENCES viagens(id),
+    FOREIGN KEY(id_passageiro) REFERENCES passageiros(cpf)
 );
 
-CREATE TABLE trajetos_Viagem(
-id_viagem INT,
-id_trajeto INT,
-PRIMARY KEY(id_viagem, id_trajeto),
-FOREIGN KEY(id_viagem) REFERENCES viagens(id),
-FOREIGN KEY(id_trajeto) REFERENCES trajetos(id)
+CREATE TABLE IF NOT EXISTS trajetos_viagem(
+    id_viagem INT,
+    id_trajeto INT,
+    PRIMARY KEY(id_viagem, id_trajeto),
+    FOREIGN KEY(id_viagem) REFERENCES viagens(id),
+    FOREIGN KEY(id_trajeto) REFERENCES trajetos(id)
 );
