@@ -37,7 +37,7 @@ void ControladorDeTransito::gerarRelatorios(int tipo) {
             std::vector<ViagemDTO*> viagensDTO = consultasDAO.relatorioViagensEmAndamento();
             for (int i = 0; i < viagensDTO.size(); i++) {
                 ViagemDTO* viagemDTO = viagensDTO[i];
-                std::cout << viagemDTO->toString();
+                std::cout << "Viagem #"<< (i+1) << ": " << viagemDTO->toString();
             }
 
             if(viagensDTO.size() == 0){
