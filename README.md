@@ -125,7 +125,7 @@ O sistema controlador de viagens consiste em um projeto da Linguagens de Program
 
 ## Vídeo demonstrativo
 
-[Link do vídeo](https://l1nk.dev/projetoLP)
+[Link do vídeo](https://acesse.one/ProjetoLPI)
 
 ## Componentes
 
